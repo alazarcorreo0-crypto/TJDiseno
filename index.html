@@ -231,14 +231,14 @@
 </div>
 
 <script>
-    // Tu enlace de Google Sheets cargado correctamente
+    // Enlace de Google Sheets en formato CSV
     const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVJJlHkdYlgjZj373bUyWGygN2bwfIs0Qi_QvtNj9eVboRJwq3rT9BA_Wjo1ePb5FyRx7vGCZix1BE/pub?output=csv";
     
     let DB_PRODUCTOS = {};
     let itemActual = null, carrito = [];
-    const TEL_WHATSAPP = "5210000000000";
+    const TEL_WHATSAPP = "5210000000000"; // Cambiar por el teléfono del cliente
 
-    // Lector robusto de CSV
+    // Procesador de CSV
     function parseCSV(text) {
         const lines = text.trim().split('\n');
         return lines.map(line => {
@@ -263,7 +263,14 @@
 
     async function cargarDesdeGoogleSheets() {
         try {
-            const respuesta = await fetch(URL_GOOGLE_SHEETS);
+            // Intentar primero con proxy para compatibilidad universal
+            const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(URL_GOOGLE_SHEETS);
+            let respuesta = await fetch(proxyUrl);
+            
+            if (!respuesta.ok) {
+                respuesta = await fetch(URL_GOOGLE_SHEETS);
+            }
+            
             if (!respuesta.ok) throw new Error("Error HTTP " + respuesta.status);
             
             const dataCSV = await respuesta.text();
@@ -271,7 +278,7 @@
             
             DB_PRODUCTOS = {};
 
-            // Omitir encabezados (fila 0)
+            // Omitir fila de encabezados (fila 0)
             for (let i = 1; i < filas.length; i++) {
                 const fila = filas[i];
                 if (fila.length >= 4) {
@@ -407,7 +414,7 @@
 
     function limpiarCarrito() { carrito = []; renderCarrito(); }
 
-    // Iniciar conexión con Google Sheets al cargar
+    // Iniciar conexión con Google Sheets
     cargarDesdeGoogleSheets();
 </script>
 
