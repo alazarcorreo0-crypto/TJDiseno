@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cotizador | T&J Diseño & Publicidad</title>
+    
+    <!-- Icono de la Pestaña Web (Favicon) -->
+    <link rel="icon" type="image/png" href="logo.png">
+
     <style>
         :root {
-            --tj-cyan: #38b6ff;
-            --tj-magenta: #e52e87;
-            --tj-yellow: #ffde59;
+            --tj-cyan: #00aeef;
+            --tj-magenta: #ec008c;
+            --tj-yellow: #fff200;
             --tj-dark: #111827;
             --tj-gray: #f8fafc;
             --tj-card: #ffffff;
@@ -32,7 +36,7 @@
         .header {
             position: relative;
             background: var(--tj-card);
-            padding: 24px 20px 18px;
+            padding: 20px;
             text-align: center;
             border-bottom: 1px solid var(--tj-border);
         }
@@ -44,20 +48,31 @@
             background: linear-gradient(to right, var(--tj-cyan) 33.3%, var(--tj-yellow) 33.3% 66.6%, var(--tj-magenta) 66.6%);
         }
 
+        /* Estilos del Logo e Imagen */
+        .header-logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .header-logo-img {
+            width: 45px;
+            height: auto;
+            object-fit: contain;
+        }
+
         .logo-title {
             font-size: 1.6rem;
             font-weight: 800;
             color: var(--tj-dark);
             letter-spacing: -0.5px;
             margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
 
         .logo-title span.amp { color: var(--tj-magenta); }
-        .logo-subtitle { font-size: 0.78rem; text-transform: uppercase; color: #64748b; font-weight: 700; margin-top: 4px; letter-spacing: 1.5px; }
+        .logo-subtitle { font-size: 0.78rem; text-transform: uppercase; color: #64748b; font-weight: 700; letter-spacing: 1.5px; margin-top: 2px; }
 
         .body-content { padding: 20px; }
         .form-group { margin-bottom: 16px; }
@@ -166,7 +181,11 @@
 <div class="cotizador-card">
     <div class="header">
         <div class="header-accent"></div>
-        <h1 class="logo-title">T<span class="amp">&</span>J</h1>
+        <div class="header-logo-container">
+            <!-- Imagen del Logo -->
+            <img src="logo.png" alt="Logo T&J" class="header-logo-img">
+            <h1 class="logo-title">T<span class="amp">&</span>J</h1>
+        </div>
         <div class="logo-subtitle">Diseño & Publicidad</div>
     </div>
 
@@ -231,14 +250,12 @@
 </div>
 
 <script>
-    // Enlace de Google Sheets en formato CSV
     const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVJJlHkdYlgjZj373bUyWGygN2bwfIs0Qi_QvtNj9eVboRJwq3rT9BA_Wjo1ePb5FyRx7vGCZix1BE/pub?output=csv";
     
     let DB_PRODUCTOS = {};
     let itemActual = null, carrito = [];
-    const TEL_WHATSAPP = "5210000000000"; // Cambiar por el teléfono del cliente
+    const TEL_WHATSAPP = "5210000000000";
 
-    // Procesador de CSV
     function parseCSV(text) {
         const lines = text.trim().split('\n');
         return lines.map(line => {
@@ -263,7 +280,6 @@
 
     async function cargarDesdeGoogleSheets() {
         try {
-            // Intentar primero con proxy para compatibilidad universal
             const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(URL_GOOGLE_SHEETS);
             let respuesta = await fetch(proxyUrl);
             
@@ -278,7 +294,6 @@
             
             DB_PRODUCTOS = {};
 
-            // Omitir fila de encabezados (fila 0)
             for (let i = 1; i < filas.length; i++) {
                 const fila = filas[i];
                 if (fila.length >= 4) {
@@ -414,7 +429,6 @@
 
     function limpiarCarrito() { carrito = []; renderCarrito(); }
 
-    // Iniciar conexión con Google Sheets
     cargarDesdeGoogleSheets();
 </script>
 
