@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador | T&J Diseño & Publicidad</title>
+    <style>
+        :root {
+            --tj-cyan: #38b6ff;
+            --tj-magenta: #e52e87;
+            --tj-yellow: #ffde59;
+            --tj-dark: #111827;
+            --tj-gray: #f8fafc;
+            --tj-card: #ffffff;
+            --tj-border: #e2e8f0;
+            --tj-radius: 12px;
+        }
+
+        * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--tj-gray); margin: 0; padding: 20px 15px; color: #334155; }
+
+        .cotizador-card {
+            max-width: 500px;
+            margin: auto;
+            background: var(--tj-card);
+            border-radius: var(--tj-radius);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 2px solid var(--tj-dark);
+        }
+
+        .header {
+            position: relative;
+            background: var(--tj-card);
+            padding: 24px 20px 18px;
+            text-align: center;
+            border-bottom: 1px solid var(--tj-border);
+        }
+
+        .header-accent {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--tj-cyan) 33.3%, var(--tj-yellow) 33.3% 66.6%, var(--tj-magenta) 66.6%);
+        }
+
+        .logo-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--tj-dark);
+            letter-spacing: -0.5px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .logo-title span.amp { color: var(--tj-magenta); }
+        .logo-subtitle { font-size: 0.78rem; text-transform: uppercase; color: #64748b; font-weight: 700; margin-top: 4px; letter-spacing: 1.5px; }
+
+        .body-content { padding: 20px; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-weight: 600; font-size: 0.82rem; margin-bottom: 6px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--tj-border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            background-color: #fff;
+        }
+
+        .price-info-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid var(--tj-cyan);
+            border-radius: 0 8px 8px 0;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            font-size: 0.82rem;
+            color: #0369a1;
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .btn-main {
+            width: 100%;
+            background: var(--tj-dark);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .result-box {
+            background: #fafafa;
+            border: 2px dashed var(--tj-magenta);
+            color: var(--tj-dark);
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            margin-top: 18px;
+            display: none;
+        }
+        .result-box .amount { font-size: 2.2rem; font-weight: 800; color: var(--tj-magenta); margin: 4px 0; }
+
+        .btn-add {
+            background: var(--tj-cyan);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cart-section { margin-top: 25px; border-top: 1px solid var(--tj-border); padding-top: 18px; }
+        .cart-title { text-align: center; font-size: 1rem; margin-bottom: 12px; font-weight: 800; color: var(--tj-dark); }
+
+        .action-buttons { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; }
+        .btn-action { border: none; padding: 8px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; color: white; text-decoration: none; }
+        .btn-clear { background: #fff; color: #ef4444; border: 1px solid #fca5a5; }
+        .btn-print { background: #64748b; }
+        .btn-wsp { background: #22c55e; }
+
+        .cart-item {
+            background: #ffffff;
+            border: 1px solid var(--tj-border);
+            border-left: 4px solid var(--tj-dark);
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-total-bar {
+            background: var(--tj-dark);
+            color: #fff;
+            padding: 14px 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 800;
+        }
+
+        .footer-notes {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            text-align: center;
+            padding: 14px;
+            background: #fafafa;
+            border-top: 1px solid var(--tj-border);
+        }
+    </style>
+</head>
+<body>
+
+<div class="cotizador-card">
+    <div class="header">
+        <div class="header-accent"></div>
+        <h1 class="logo-title">T<span class="amp">&</span>J</h1>
+        <div class="logo-subtitle">Diseño & Publicidad</div>
+    </div>
+
+    <div class="body-content">
+        <div class="form-group">
+            <label for="producto">Selecciona un Producto</label>
+            <select id="producto" onchange="cambiarProducto()">
+                <option value="">Cargando catálogo...</option>
+            </select>
+        </div>
+
+        <div class="price-info-box" id="infoPrecio"></div>
+
+        <div id="camposMedida" style="display: none;">
+            <div class="grid-2 form-group">
+                <div>
+                    <label id="lblBase">Base (m)</label>
+                    <input type="number" id="base" value="1.00" step="0.01">
+                </div>
+                <div>
+                    <label id="lblAltura">Altura (m)</label>
+                    <input type="number" id="altura" value="1.00" step="0.01">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="lblCantidad">Cantidad</label>
+            <input type="number" id="cantidad" value="1" min="1">
+        </div>
+
+        <button class="btn-main" onclick="calcular()">Calcular Presupuesto</button>
+
+        <div class="result-box" id="boxResultado">
+            <div style="text-transform: uppercase; font-size: 0.75rem; font-weight: 700; color: #64748b;">Subtotal Estimado</div>
+            <div class="amount" id="resMonto">$0.00</div>
+            <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px;" id="resDetalle"></div>
+            <button class="btn-add" onclick="agregarAlCarrito()">+ Añadir a la lista</button>
+        </div>
+
+        <div class="cart-section" id="seccionCarrito" style="display: none;">
+            <div class="cart-title">Tu Cotización</div>
+            <div class="action-buttons">
+                <button class="btn-action btn-clear" onclick="limpiarCarrito()">Borrar Todo</button>
+                <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir</button>
+                <a id="btnWsp" href="#" target="_blank" class="btn-action btn-wsp">📲 Enviar a WhatsApp</a>
+            </div>
+
+            <div id="listaCarrito"></div>
+
+            <div class="cart-total-bar">
+                <div>TOTAL</div>
+                <span id="granTotal" style="color: var(--tj-yellow); font-size: 1.3rem;">$0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-notes">
+        Precios no incluyen I.V.A. ni Elaboración de Diseño.<br>
+        © T&J Diseño & Publicidad
+    </div>
+</div>
+
+<script>
+    // Tu enlace de Google Sheets cargado correctamente
+    const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVJJlHkdYlgjZj373bUyWGygN2bwfIs0Qi_QvtNj9eVboRJwq3rT9BA_Wjo1ePb5FyRx7vGCZix1BE/pub?output=csv";
+    
+    let DB_PRODUCTOS = {};
+    let itemActual = null, carrito = [];
+    const TEL_WHATSAPP = "5210000000000";
+
+    // Lector robusto de CSV
+    function parseCSV(text) {
+        const lines = text.trim().split('\n');
+        return lines.map(line => {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"' || char === "'") {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current.trim().replace(/^["']|["']$/g, ''));
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            values.push(current.trim().replace(/^["']|["']$/g, ''));
+            return values;
+        });
+    }
+
+    async function cargarDesdeGoogleSheets() {
+        try {
+            const respuesta = await fetch(URL_GOOGLE_SHEETS);
+            if (!respuesta.ok) throw new Error("Error HTTP " + respuesta.status);
+            
+            const dataCSV = await respuesta.text();
+            const filas = parseCSV(dataCSV);
+            
+            DB_PRODUCTOS = {};
+
+            // Omitir encabezados (fila 0)
+            for (let i = 1; i < filas.length; i++) {
+                const fila = filas[i];
+                if (fila.length >= 4) {
+                    const id = fila[0];
+                    const nombre = fila[1];
+                    const tipo = fila[2];
+                    const precio = fila[3];
+                    const info = fila[4] || `Tarifa: $${precio}`;
+
+                    if (id && nombre) {
+                        const cleanId = id.trim();
+                        DB_PRODUCTOS[cleanId] = {
+                            nombre: nombre.trim(),
+                            tipo: tipo ? tipo.trim() : 'unidad',
+                            precio: parseFloat(precio) || 0,
+                            info: info.trim()
+                        };
+                    }
+                }
+            }
+
+            poblarSelect();
+        } catch (error) {
+            console.error("Error cargando Google Sheets:", error);
+            alert("No se pudieron cargar los productos desde Google Sheets. Verifica la conexión.");
+        }
+    }
+
+    function poblarSelect() {
+        const select = document.getElementById('producto');
+        select.innerHTML = '';
+        Object.keys(DB_PRODUCTOS).forEach(key => {
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.innerText = DB_PRODUCTOS[key].nombre;
+            select.appendChild(opt);
+        });
+        cambiarProducto();
+    }
+
+    function cambiarProducto() {
+        const key = document.getElementById('producto').value;
+        if (!key || !DB_PRODUCTOS[key]) return;
+        const p = DB_PRODUCTOS[key];
+        document.getElementById('infoPrecio').innerHTML = p.info;
+        document.getElementById('boxResultado').style.display = 'none';
+
+        const boxMedida = document.getElementById('camposMedida');
+        const inputBase = document.getElementById('base');
+
+        if (p.tipo === 'm2') {
+            boxMedida.style.display = 'block';
+            inputBase.readOnly = false;
+            document.getElementById('lblCantidad').innerText = 'Cantidad de piezas';
+        } else if (p.tipo === 'lineal_dtf') {
+            boxMedida.style.display = 'block';
+            inputBase.value = 0.60;
+            inputBase.readOnly = true;
+            document.getElementById('lblCantidad').innerText = 'Cantidad de ejemplares';
+        } else {
+            boxMedida.style.display = 'none';
+            document.getElementById('lblCantidad').innerText = p.tipo === 'millar' ? 'Cantidad (Millares)' : 'Cantidad';
+        }
+    }
+
+    function calcular() {
+        const key = document.getElementById('producto').value;
+        const p = DB_PRODUCTOS[key];
+        const cantidad = parseFloat(document.getElementById('cantidad').value) || 1;
+        let total = 0, detalle = "";
+
+        if (p.tipo === 'millar' || p.tipo === 'unidad') {
+            total = p.precio * cantidad;
+            detalle = p.tipo === 'millar' ? `${cantidad} millar(es)` : `${cantidad} pieza(s)`;
+        } else if (p.tipo === 'm2') {
+            const b = parseFloat(document.getElementById('base').value) || 1;
+            const a = parseFloat(document.getElementById('altura').value) || 1;
+            total = (b * a) * p.precio * cantidad;
+            detalle = `Medida: ${b}m x ${a}m | Piezas: ${cantidad}`;
+        } else if (p.tipo === 'lineal_dtf') {
+            const a = parseFloat(document.getElementById('altura').value) || 0;
+            let pUnitario = a <= 0.20 ? 100 : a * p.precio;
+            total = pUnitario * cantidad;
+            detalle = `Medida: 0.60m x ${a}m | Ejemplares: ${cantidad}`;
+        }
+
+        itemActual = { nombre: p.nombre, total, detalle };
+        document.getElementById('resMonto').innerText = '$' + total.toFixed(2);
+        document.getElementById('resDetalle').innerText = detalle;
+        document.getElementById('boxResultado').style.display = 'block';
+    }
+
+    function agregarAlCarrito() {
+        if (!itemActual) return;
+        carrito.push({...itemActual});
+        renderCarrito();
+        document.getElementById('boxResultado').style.display = 'none';
+    }
+
+    function renderCarrito() {
+        const sec = document.getElementById('seccionCarrito');
+        const list = document.getElementById('listaCarrito');
+        if (carrito.length === 0) { sec.style.display = 'none'; return; }
+
+        sec.style.display = 'block';
+        list.innerHTML = '';
+        let granTotal = 0;
+        let msg = "Hola *T%26J Diseño %26 Publicidad*, solicito cotización:%0A%0A";
+
+        carrito.forEach((item, i) => {
+            granTotal += item.total;
+            msg += `• *${item.nombre}*%0A  ${item.detalle}%0A  Subtotal: $${item.total.toFixed(2)} MXN%0A%0A`;
+            
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+            div.innerHTML = `
+                <div>
+                    <div style="font-weight:700;">${item.nombre}</div>
+                    <div style="font-size:0.75rem; color:#64748b;">${item.detalle}</div>
+                </div>
+                <div style="display:flex; align-items:center;">
+                    <span style="font-weight:800;">$${item.total.toFixed(2)}</span>
+                    <button onclick="carrito.splice(${i},1); renderCarrito();" style="background:#fee2e2; color:#ef4444; border:none; border-radius:4px; margin-left:8px; cursor:pointer;">×</button>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+
+        document.getElementById('granTotal').innerText = '$' + granTotal.toFixed(2);
+        msg += `*Total Estimado: $${granTotal.toFixed(2)} MXN*`;
+        document.getElementById('btnWsp').href = `https://wa.me/${TEL_WHATSAPP}?text=${msg}`;
+    }
+
+    function limpiarCarrito() { carrito = []; renderCarrito(); }
+
+    // Iniciar conexión con Google Sheets al cargar
+    cargarDesdeGoogleSheets();
+</script>
+
+</body>
+</html>
