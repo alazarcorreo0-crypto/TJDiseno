@@ -6,7 +6,7 @@
 <meta name="description" content="Cotizador en línea de T&J Diseño & Publicidad">
 <title>Cotizador | T&J Diseño & Publicidad</title>
 
-<link rel="icon" type="image/png" href="./logo.png?v=3">
+<link rel="icon" type="image/png" href="./logo.png?v=4">
 <link rel="apple-touch-icon" href="./logo.png">
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#111827">
@@ -14,271 +14,638 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <style>
+/* ============================================================
+   APPLE-STYLE + CMYK T&J
+============================================================ */
 :root{
-  --tj-cyan:#00aeef;
-  --tj-magenta:#ec008c;
-  --tj-yellow:#fff200;
-  --tj-dark:#111827;
-  --tj-gray:#f8fafc;
-  --tj-card:#ffffff;
-  --tj-border:#e2e8f0;
-  --tj-radius:14px;
-  --tj-shadow:0 10px 30px -12px rgba(0,0,0,.35);
+  /* Apple base */
+  --apple-bg:        #f5f5f7;
+  --apple-card:      #ffffff;
+  --apple-text:      #1d1d1f;
+  --apple-text-soft: #6e6e73;
+  --apple-text-mute: #86868b;
+  --apple-border:    rgba(0,0,0,.08);
+  --apple-border-2:  rgba(0,0,0,.12);
+  --apple-radius:    18px;
+  --apple-radius-sm: 12px;
+  --apple-shadow:    0 4px 24px rgba(0,0,0,.06);
+  --apple-shadow-lg: 0 12px 40px rgba(0,0,0,.10);
+  --apple-transition: all .35s cubic-bezier(.4,0,.2,1);
+
+  /* CMYK T&J */
+  --tj-cyan:    #00aeef;
+  --tj-magenta: #ec008c;
+  --tj-yellow:  #fff200;
+  --tj-dark:    #111827;
 }
 
-*{box-sizing:border-box;font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;}
+*{
+  box-sizing:border-box;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
 html,body{margin:0;padding:0;}
 
 body{
-  background-color:var(--tj-gray);
-  background-image:url('./fondo.jpg');
-  background-position:center center;
-  background-repeat:no-repeat;
-  background-size:cover;
-  background-attachment:fixed;
-  padding:20px 15px calc(20px + env(safe-area-inset-bottom));
-  color:#334155;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
+              "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background:var(--apple-bg);
+  color:var(--apple-text);
+  padding:40px 20px calc(40px + env(safe-area-inset-bottom));
   min-height:100vh;
-  -webkit-font-smoothing:antialiased;
+  line-height:1.47059;
+  letter-spacing:-.022em;
+  font-size:17px;
 }
 
-@media(max-width:768px){
-  body{background-attachment:scroll;}
-}
-
-.cotizador-card{
-  max-width:560px;
-  margin:auto;
-  background:rgba(255,255,255,.97);
-  border-radius:var(--tj-radius);
-  box-shadow:var(--tj-shadow);
+/* ============================================================
+   CARD PRINCIPAL
+============================================================ */
+.apple-card{
+  max-width:520px;
+  margin:0 auto;
+  background:var(--apple-card);
+  border-radius:var(--apple-radius);
+  box-shadow:var(--apple-shadow-lg);
   overflow:hidden;
-  border:2px solid var(--tj-dark);
-  border-bottom:none;
-  backdrop-filter:blur(8px);
-  animation:fadeIn .35s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(8px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-.header{
   position:relative;
-  background:var(--tj-card);
-  padding:22px 20px 18px;
-  text-align:center;
-  border-bottom:1px solid var(--tj-border);
+  animation:appleFadeIn .5s cubic-bezier(.4,0,.2,1);
 }
 
-.header-accent{
-  position:absolute;top:0;left:0;right:0;height:5px;
-  background:linear-gradient(to right,var(--tj-cyan) 33.3%,var(--tj-yellow) 33.3% 66.6%,var(--tj-magenta) 66.6%);
+@keyframes appleFadeIn{
+  from{opacity:0;transform:translateY(12px) scale(.98);}
+  to{opacity:1;transform:translateY(0) scale(1);}
 }
 
-.header-logo-img{
-  width:110px;height:auto;max-height:110px;
-  object-fit:contain;display:block;margin:0 auto;
-}
-
-.logo-subtitle{
-  font-size:.8rem;text-transform:uppercase;color:#64748b;
-  font-weight:700;letter-spacing:1.5px;margin-top:4px;
-}
-
-.body-content{padding:20px;}
-
-.form-group{margin-bottom:16px;}
-
-label{
-  display:block;font-weight:700;font-size:.78rem;margin-bottom:6px;
-  color:#475569;text-transform:uppercase;letter-spacing:.5px;
-}
-
-select,input,textarea{
-  width:100%;padding:12px 14px;border:1px solid var(--tj-border);
-  border-radius:10px;font-size:.95rem;outline:none;background:#fff;
-  transition:border-color .2s,box-shadow .2s;
-  font-family:inherit;
-}
-
-select:focus,input:focus,textarea:focus{
-  border-color:var(--tj-cyan);
-  box-shadow:0 0 0 3px rgba(0,174,239,.15);
-}
-
-input[readonly]{background:#f1f5f9;color:#64748b;cursor:not-allowed;}
-
-.search-box{position:relative;margin-bottom:12px;}
-.search-box input{padding-left:36px;}
-.search-box::before{
-  content:"🔍";position:absolute;left:12px;top:50%;
-  transform:translateY(-50%);font-size:.9rem;opacity:.5;pointer-events:none;
-}
-
-.price-info-box{
-  background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);
-  border-left:4px solid var(--tj-cyan);
-  border-radius:0 10px 10px 0;
-  padding:12px 14px;margin-bottom:16px;
-  font-size:.82rem;color:#0369a1;line-height:1.4;
-}
-
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-
-.btn-main{
-  width:100%;background:var(--tj-dark);color:#fff;border:none;
-  padding:15px;border-radius:10px;font-weight:700;font-size:.95rem;
-  cursor:pointer;transition:transform .12s,background .2s;
-  letter-spacing:.3px;
-}
-
-.btn-main:hover{background:#1e293b;}
-.btn-main:active{transform:scale(.98);}
-
-.result-box{
-  background:#fafafa;
-  border:2px dashed var(--tj-magenta);
-  border-radius:12px;padding:18px;text-align:center;
-  margin-top:18px;display:none;
-  animation:slideDown .25s ease;
-}
-
-@keyframes slideDown{
-  from{opacity:0;transform:translateY(-6px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-.result-box .amount{
-  font-size:2.2rem;font-weight:800;color:var(--tj-magenta);
-  margin:4px 0;letter-spacing:-1px;
-}
-
-.btn-add{
-  background:var(--tj-cyan);color:#fff;border:none;
-  padding:11px 22px;border-radius:8px;font-weight:700;
-  cursor:pointer;font-size:.9rem;transition:background .2s;
-}
-
-.btn-add:hover{background:#0095cc;}
-
-.cart-section{
-  margin-top:25px;border-top:2px solid var(--tj-border);
-  padding-top:18px;
-}
-
-.cart-title{
-  text-align:center;font-size:1.05rem;margin-bottom:14px;
-  font-weight:800;color:var(--tj-dark);
-}
-
-.action-buttons{
-  display:flex;gap:8px;justify-content:center;
-  margin-bottom:15px;flex-wrap:wrap;
-}
-
-.btn-action{
-  border:none;padding:9px 14px;border-radius:8px;
-  font-size:.78rem;font-weight:700;cursor:pointer;
-  color:#fff;text-decoration:none;transition:opacity .2s;
-  display:inline-flex;align-items:center;gap:4px;
-}
-
-.btn-action:hover{opacity:.85;}
-.btn-clear{background:#fff;color:#ef4444;border:1px solid #fca5a5;}
-.btn-print{background:#64748b;}
-.btn-wsp{background:#22c55e;}
-
-.cart-item{
-  background:#fff;border:1px solid var(--tj-border);
-  border-left:4px solid var(--tj-dark);
-  border-radius:8px;padding:12px;margin-bottom:10px;
-  display:flex;justify-content:space-between;gap:10px;
-  align-items:flex-start;animation:fadeIn .25s;
-}
-
-.cart-item-info{flex:1;min-width:0;}
-.cart-item-name{
-  font-weight:700;font-size:.9rem;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.cart-item-detail{font-size:.72rem;color:#64748b;margin-top:2px;}
-.cart-item-price{font-weight:800;font-size:.95rem;white-space:nowrap;}
-.cart-item-actions{
-  display:flex;align-items:center;gap:6px;margin-top:6px;
-}
-.qty-ctrl{
-  display:inline-flex;align-items:center;gap:0;
-  border:1px solid var(--tj-border);border-radius:6px;overflow:hidden;
-}
-.qty-ctrl button{
-  background:#f8fafc;border:none;padding:3px 8px;
-  cursor:pointer;font-weight:700;color:#475569;font-size:.85rem;
-}
-.qty-ctrl button:hover{background:#e2e8f0;}
-.qty-ctrl span{padding:3px 8px;font-size:.8rem;font-weight:700;min-width:26px;text-align:center;}
-
-.btn-remove{
-  background:#fee2e2;color:#ef4444;border:none;
-  border-radius:6px;width:26px;height:26px;cursor:pointer;
-  font-weight:700;line-height:1;font-size:1rem;
-}
-.btn-remove:hover{background:#fecaca;}
-
-.cart-total-bar{
-  background:var(--tj-dark);color:#fff;
-  padding:16px;border-radius:10px;
-  display:flex;justify-content:space-between;align-items:center;
-  font-weight:800;margin-top:6px;
-}
-
-.cart-total-bar .total-value{
-  color:var(--tj-yellow);font-size:1.35rem;letter-spacing:-.5px;
-}
-
-.notes-input{
-  margin-top:6px;font-size:.8rem;
-  padding:6px 8px;border-radius:6px;
-}
-
-.footer-notes{
-  font-size:.72rem;color:#94a3b8;text-align:center;
-  padding:14px;background:#fafafa;
-  border-top:1px solid var(--tj-border);line-height:1.5;
-}
-
-/* 🔽 FRANJA INFERIOR — espejo del header */
-.footer-accent{
-  height:5px;
+/* 🔽 Franja CMYK superior */
+.apple-card::before{
+  content:"";
+  display:block;
+  height:4px;
   background:linear-gradient(to right,
     var(--tj-cyan) 33.3%,
     var(--tj-yellow) 33.3% 66.6%,
     var(--tj-magenta) 66.6%);
-  border:2px solid var(--tj-dark);
-  border-top:none;
-  border-radius:0 0 calc(var(--tj-radius) - 2px) calc(var(--tj-radius) - 2px);
 }
 
-.toast{
-  position:fixed;bottom:20px;left:50%;
-  transform:translateX(-50%) translateY(80px);
-  background:var(--tj-dark);color:#fff;
-  padding:12px 20px;border-radius:10px;
-  font-size:.85rem;font-weight:600;
-  box-shadow:0 8px 24px rgba(0,0,0,.3);
-  opacity:0;transition:all .3s ease;z-index:9999;
+/* 🔽 Franja CMYK inferior (espejo) */
+.apple-card::after{
+  content:"";
+  display:block;
+  height:4px;
+  background:linear-gradient(to right,
+    var(--tj-cyan) 33.3%,
+    var(--tj-yellow) 33.3% 66.6%,
+    var(--tj-magenta) 66.6%);
+}
+
+/* ============================================================
+   HEADER
+============================================================ */
+.apple-header{
+  text-align:center;
+  padding:36px 24px 28px;
+  background:var(--apple-card);
+  border-bottom:1px solid var(--apple-border);
+  position:relative;
+}
+
+.apple-logo-wrap{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:88px;
+  height:88px;
+  border-radius:22px;
+  background:linear-gradient(135deg,
+    rgba(0,174,239,.10) 0%,
+    rgba(255,242,0,.10) 50%,
+    rgba(236,0,140,.10) 100%);
+  margin-bottom:16px;
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.8),
+             0 4px 12px rgba(0,0,0,.06);
+  position:relative;
+}
+
+/* Anillo CMYK sutil alrededor del logo */
+.apple-logo-wrap::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:24px;
+  padding:2px;
+  background:linear-gradient(135deg,
+    var(--tj-cyan),
+    var(--tj-yellow),
+    var(--tj-magenta));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
+  opacity:.5;
   pointer-events:none;
 }
 
-.toast.show{
-  opacity:1;transform:translateX(-50%) translateY(0);
+.apple-logo-wrap img{
+  width:60px;
+  height:auto;
+  object-fit:contain;
+  position:relative;
+  z-index:1;
 }
 
+.apple-title{
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:-.03em;
+  margin:0 0 4px;
+  color:var(--apple-text);
+}
+
+.apple-subtitle{
+  font-size:15px;
+  font-weight:400;
+  color:var(--apple-text-soft);
+  letter-spacing:-.01em;
+  margin:0;
+}
+
+/* ============================================================
+   BODY
+============================================================ */
+.apple-body{
+  padding:28px 24px 32px;
+}
+
+.apple-field{
+  margin-bottom:20px;
+}
+
+.apple-label{
+  display:block;
+  font-size:13px;
+  font-weight:500;
+  color:var(--apple-text-soft);
+  margin-bottom:8px;
+  letter-spacing:-.01em;
+}
+
+/* ============================================================
+   INPUTS / SELECTS
+============================================================ */
+.apple-input,
+.apple-select{
+  width:100%;
+  padding:14px 16px;
+  font-family:inherit;
+  font-size:17px;
+  font-weight:400;
+  color:var(--apple-text);
+  background:#fafafa;
+  border:1px solid var(--apple-border-2);
+  border-radius:var(--apple-radius-sm);
+  outline:none;
+  transition:var(--apple-transition);
+  letter-spacing:-.01em;
+  -webkit-appearance:none;
+  appearance:none;
+}
+
+.apple-input:focus,
+.apple-select:focus{
+  background:#fff;
+  border-color:var(--tj-cyan);
+  box-shadow:0 0 0 4px rgba(0,174,239,.14);
+}
+
+.apple-select{
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%236e6e73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 16px center;
+  padding-right:40px;
+  cursor:pointer;
+}
+
+.apple-input[readonly]{
+  background:#f0f0f2;
+  color:var(--apple-text-mute);
+  cursor:not-allowed;
+}
+
+/* Buscador */
+.apple-search{
+  position:relative;
+  margin-bottom:20px;
+}
+
+.apple-search input{
+  padding-left:44px;
+  background:#fafafa;
+}
+
+.apple-search::before{
+  content:"";
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  width:16px;
+  height:16px;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Ccircle cx='7' cy='7' r='5' stroke='%2386868b' stroke-width='1.6'/%3E%3Cpath d='M11 11L14 14' stroke='%2386868b' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-size:contain;
+  pointer-events:none;
+}
+
+/* ============================================================
+   INFO BOX (tarifa)
+============================================================ */
+.apple-info{
+  background:linear-gradient(135deg,
+    rgba(0,174,239,.06) 0%,
+    rgba(0,174,239,.02) 100%);
+  border-left:3px solid var(--tj-cyan);
+  border-radius:4px var(--apple-radius-sm) var(--apple-radius-sm) 4px;
+  padding:14px 18px;
+  margin-bottom:22px;
+  font-size:14px;
+  color:var(--apple-text-soft);
+  letter-spacing:-.01em;
+  line-height:1.5;
+}
+
+/* ============================================================
+   GRID 2 COLUMNAS
+============================================================ */
+.apple-grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+/* ============================================================
+   BOTÓN PRINCIPAL — gradiente CMYK
+============================================================ */
+.apple-btn{
+  width:100%;
+  padding:16px 24px;
+  font-family:inherit;
+  font-size:17px;
+  font-weight:600;
+  letter-spacing:-.01em;
+  color:#fff;
+  background:linear-gradient(135deg,
+    var(--tj-cyan) 0%,
+    var(--tj-magenta) 100%);
+  background-size:200% 200%;
+  background-position:0% 50%;
+  border:none;
+  border-radius:980px;
+  cursor:pointer;
+  transition:background-position .5s cubic-bezier(.4,0,.2,1),
+             transform .2s cubic-bezier(.4,0,.2,1),
+             box-shadow .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 4px 16px rgba(236,0,140,.20);
+  position:relative;
+  overflow:hidden;
+}
+
+.apple-btn:hover{
+  background-position:100% 50%;
+  box-shadow:0 6px 22px rgba(236,0,140,.30);
+}
+
+.apple-btn:active{
+  transform:scale(.98);
+}
+
+/* ============================================================
+   RESULT BOX — borde CMYK sutil
+============================================================ */
+.apple-result{
+  background:#fafafa;
+  border-radius:var(--apple-radius);
+  padding:32px 24px;
+  text-align:center;
+  margin-top:24px;
+  border:1.5px solid transparent;
+  background-image:
+    linear-gradient(#fafafa, #fafafa),
+    linear-gradient(135deg,
+      var(--tj-cyan),
+      var(--tj-yellow),
+      var(--tj-magenta));
+  background-origin:border-box;
+  background-clip:padding-box, border-box;
+  animation:appleFadeIn .4s cubic-bezier(.4,0,.2,1);
+}
+
+.apple-result-label{
+  font-size:12px;
+  font-weight:500;
+  color:var(--apple-text-mute);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:8px;
+}
+
+.apple-result-amount{
+  font-size:52px;
+  font-weight:800;
+  letter-spacing:-.04em;
+  margin:0 0 8px;
+  line-height:1.05;
+  background:linear-gradient(135deg,
+    var(--tj-magenta) 0%,
+    var(--tj-cyan) 100%);
+  -webkit-background-clip:text;
+          background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:var(--tj-magenta);
+}
+
+.apple-result-detail{
+  font-size:14px;
+  color:var(--apple-text-soft);
+  margin-bottom:20px;
+  letter-spacing:-.01em;
+}
+
+.apple-btn-add{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:12px 24px;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:600;
+  color:var(--tj-cyan);
+  background:transparent;
+  border:1.5px solid var(--tj-cyan);
+  border-radius:980px;
+  cursor:pointer;
+  transition:var(--apple-transition);
+  letter-spacing:-.01em;
+}
+
+.apple-btn-add:hover{
+  background:var(--tj-cyan);
+  color:#fff;
+  box-shadow:0 4px 14px rgba(0,174,239,.25);
+}
+
+/* ============================================================
+   CARRITO
+============================================================ */
+.apple-cart{
+  margin-top:32px;
+  padding-top:28px;
+  border-top:1px solid var(--apple-border);
+}
+
+.apple-cart-title{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:-.02em;
+  text-align:center;
+  margin:0 0 20px;
+  color:var(--apple-text);
+}
+
+.apple-actions{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.apple-action-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:8px 16px;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:500;
+  color:var(--apple-text);
+  background:#f5f5f7;
+  border:none;
+  border-radius:980px;
+  cursor:pointer;
+  text-decoration:none;
+  transition:var(--apple-transition);
+  letter-spacing:-.01em;
+}
+
+.apple-action-btn:hover{background:#e8e8ed;}
+
+.apple-action-btn.danger{color:#ff3b30;}
+.apple-action-btn.danger:hover{background:#ffe5e3;}
+
+.apple-action-btn.wsp{
+  color:#fff;
+  background:#34c759;
+}
+.apple-action-btn.wsp:hover{background:#2fb350;}
+
+/* ============================================================
+   ITEM DEL CARRITO — barra CMYK
+============================================================ */
+.apple-cart-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:16px 18px;
+  background:#fafafa;
+  border-radius:var(--apple-radius-sm);
+  margin-bottom:10px;
+  transition:var(--apple-transition);
+  position:relative;
+  overflow:hidden;
+}
+
+.apple-cart-item::before{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:3px;
+  background:linear-gradient(to bottom,
+    var(--tj-cyan),
+    var(--tj-magenta));
+}
+
+.apple-cart-item:hover{background:#f5f5f7;}
+
+.apple-item-info{flex:1;min-width:0;}
+
+.apple-item-name{
+  font-size:15px;
+  font-weight:600;
+  color:var(--apple-text);
+  letter-spacing:-.01em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.apple-item-detail{
+  font-size:12px;
+  color:var(--apple-text-mute);
+  margin-top:2px;
+  letter-spacing:-.01em;
+}
+
+.apple-item-price{
+  font-size:17px;
+  font-weight:600;
+  letter-spacing:-.02em;
+  color:var(--apple-text);
+  white-space:nowrap;
+}
+
+.apple-qty{
+  display:inline-flex;
+  align-items:center;
+  background:#fff;
+  border:1px solid var(--apple-border-2);
+  border-radius:8px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.apple-qty button{
+  background:transparent;
+  border:none;
+  padding:4px 10px;
+  font-size:14px;
+  font-weight:500;
+  color:var(--apple-text-soft);
+  cursor:pointer;
+  transition:var(--apple-transition);
+}
+
+.apple-qty button:hover{
+  background:#f0f0f2;
+  color:var(--tj-cyan);
+}
+
+.apple-qty span{
+  padding:4px 10px;
+  font-size:13px;
+  font-weight:600;
+  min-width:30px;
+  text-align:center;
+}
+
+.apple-remove{
+  background:transparent;
+  border:none;
+  color:var(--apple-text-mute);
+  font-size:22px;
+  line-height:1;
+  padding:0 4px;
+  cursor:pointer;
+  transition:var(--apple-transition);
+}
+
+.apple-remove:hover{color:#ff3b30;}
+
+/* ============================================================
+   TOTAL BAR
+============================================================ */
+.apple-total{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 24px;
+  background:var(--tj-dark);
+  border-radius:var(--apple-radius);
+  margin-top:12px;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+
+.apple-total::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:linear-gradient(to right,
+    var(--tj-cyan) 33.3%,
+    var(--tj-yellow) 33.3% 66.6%,
+    var(--tj-magenta) 66.6%);
+}
+
+.apple-total-label{
+  font-size:15px;
+  font-weight:500;
+  letter-spacing:-.01em;
+  opacity:.7;
+}
+
+.apple-total-value{
+  font-size:26px;
+  font-weight:800;
+  letter-spacing:-.03em;
+  color:var(--tj-yellow);
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.apple-footer{
+  text-align:center;
+  padding:24px;
+  font-size:12px;
+  color:var(--apple-text-mute);
+  line-height:1.6;
+  letter-spacing:-.01em;
+  background:#fafafa;
+  border-top:1px solid var(--apple-border);
+}
+
+/* ============================================================
+   TOAST
+============================================================ */
+.toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--apple-text);
+  color:#fff;
+  padding:12px 22px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:500;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+  opacity:0;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+  z-index:9999;
+  pointer-events:none;
+  letter-spacing:-.01em;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   LOADING SHIMMER
+============================================================ */
 .loading-shimmer{
-  display:inline-block;width:100%;height:14px;
-  background:linear-gradient(90deg,#e2e8f0 0%,#f1f5f9 50%,#e2e8f0 100%);
-  background-size:200% 100%;animation:shimmer 1.4s infinite;
+  display:inline-block;
+  width:100%;
+  height:14px;
+  background:linear-gradient(90deg,#e8e8ed 0%,#f5f5f7 50%,#e8e8ed 100%);
+  background-size:200% 100%;
+  animation:shimmer 1.4s infinite;
   border-radius:4px;
 }
 
@@ -287,18 +654,33 @@ input[readonly]{background:#f1f5f9;color:#64748b;cursor:not-allowed;}
   100%{background-position:-200% 0;}
 }
 
-.empty-cart{
-  text-align:center;color:#94a3b8;font-size:.85rem;padding:16px;
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media(max-width:480px){
+  body{padding:24px 12px calc(24px + env(safe-area-inset-bottom));}
+  .apple-body{padding:24px 20px 28px;}
+  .apple-title{font-size:24px;}
+  .apple-result-amount{font-size:44px;}
 }
 
+/* ============================================================
+   PRINT
+============================================================ */
 @media print{
   body{background:#fff !important;padding:0;}
-  .cotizador-card{box-shadow:none;border:1px solid #ccc;border-bottom:none;}
-  .action-buttons,.btn-main,.btn-add,.header-accent,
-  .footer-notes{display:none !important;}
-  .result-box{display:none !important;}
-  .footer-accent{
-    display:block !important;
+  .apple-card{box-shadow:none;border:1px solid #e0e0e0;border-radius:0;}
+  .apple-actions,
+  .apple-btn,
+  .apple-btn-add,
+  .apple-result,
+  .apple-search{display:none !important;}
+  .apple-card::before,
+  .apple-card::after{
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .apple-total::before{
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact;
   }
@@ -307,86 +689,102 @@ input[readonly]{background:#f1f5f9;color:#64748b;cursor:not-allowed;}
 </head>
 <body>
 
-<div class="cotizador-card">
-  <div class="header">
-    <div class="header-accent"></div>
-    <div class="header-logo-container">
-      <img src="./logo.png" alt="Logo T&J" class="header-logo-img"
-           onerror="this.style.display='none'">
+<div class="apple-card">
+
+  <!-- HEADER -->
+  <div class="apple-header">
+    <div class="apple-logo-wrap">
+      <img src="./logo.png" alt="T&J" onerror="this.style.display='none'">
     </div>
-    <div class="logo-subtitle">Diseño & Publicidad</div>
+    <h1 class="apple-title">Cotizador</h1>
+    <p class="apple-subtitle">T&J Diseño & Publicidad</p>
   </div>
 
-  <div class="body-content">
+  <!-- BODY -->
+  <div class="apple-body">
 
-    <div class="search-box">
-      <input type="text" id="buscador" placeholder="Buscar producto..."
+    <!-- BUSCADOR -->
+    <div class="apple-search">
+      <input class="apple-input" type="text" id="buscador"
+             placeholder="Buscar producto..."
              oninput="filtrarProductos()" autocomplete="off">
     </div>
 
-    <div class="form-group">
-      <label for="producto">Selecciona un Producto</label>
-      <select id="producto" onchange="cambiarProducto()">
+    <!-- SELECTOR -->
+    <div class="apple-field">
+      <label class="apple-label" for="producto">Producto</label>
+      <select class="apple-select" id="producto" onchange="cambiarProducto()">
         <option value="">Cargando catálogo...</option>
       </select>
     </div>
 
-    <div class="price-info-box" id="infoPrecio">
+    <!-- INFO TARIFA -->
+    <div class="apple-info" id="infoPrecio">
       <span class="loading-shimmer"></span>
     </div>
 
+    <!-- MEDIDAS -->
     <div id="camposMedida" style="display:none;">
-      <div class="grid-2 form-group">
-        <div>
-          <label id="lblBase">Base (m)</label>
-          <input type="number" id="base" value="1.00" step="0.01" min="0.01" inputmode="decimal">
-        </div>
-        <div>
-          <label id="lblAltura">Altura (m)</label>
-          <input type="number" id="altura" value="1.00" step="0.01" min="0.01" inputmode="decimal">
+      <div class="apple-field">
+        <div class="apple-grid-2">
+          <div>
+            <label class="apple-label" id="lblBase">Base (m)</label>
+            <input class="apple-input" type="number" id="base" value="1.00"
+                   step="0.01" min="0.01" inputmode="decimal">
+          </div>
+          <div>
+            <label class="apple-label" id="lblAltura">Altura (m)</label>
+            <input class="apple-input" type="number" id="altura" value="1.00"
+                   step="0.01" min="0.01" inputmode="decimal">
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label id="lblCantidad">Cantidad</label>
-      <input type="number" id="cantidad" value="1" min="1" step="1" inputmode="numeric">
+    <!-- CANTIDAD -->
+    <div class="apple-field">
+      <label class="apple-label" id="lblCantidad">Cantidad</label>
+      <input class="apple-input" type="number" id="cantidad" value="1"
+             min="1" step="1" inputmode="numeric">
     </div>
 
-    <button class="btn-main" onclick="calcular()">Calcular Presupuesto</button>
+    <!-- BOTÓN CALCULAR -->
+    <button class="apple-btn" onclick="calcular()">Calcular presupuesto</button>
 
-    <div class="result-box" id="boxResultado">
-      <div style="text-transform:uppercase;font-size:.72rem;font-weight:700;color:#64748b;">
-        Subtotal Estimado
-      </div>
-      <div class="amount" id="resMonto">$0.00</div>
-      <div style="font-size:.8rem;color:#64748b;margin-bottom:12px;" id="resDetalle"></div>
-      <button class="btn-add" onclick="agregarAlCarrito()">+ Añadir a la lista</button>
+    <!-- RESULTADO -->
+    <div class="apple-result" id="boxResultado" style="display:none;">
+      <div class="apple-result-label">Subtotal estimado</div>
+      <div class="apple-result-amount" id="resMonto">$0.00</div>
+      <div class="apple-result-detail" id="resDetalle"></div>
+      <button class="apple-btn-add" onclick="agregarAlCarrito()">+ Añadir a la lista</button>
     </div>
 
-    <div class="cart-section" id="seccionCarrito" style="display:none;">
-      <div class="cart-title">Tu Cotización</div>
+    <!-- CARRITO -->
+    <div class="apple-cart" id="seccionCarrito" style="display:none;">
+      <h2 class="apple-cart-title">Tu cotización</h2>
 
-      <div class="action-buttons">
-        <button class="btn-action btn-clear" onclick="limpiarCarrito()">🗑️ Borrar Todo</button>
-        <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir</button>
-        <a id="btnWsp" href="#" target="_blank" rel="noopener" class="btn-action btn-wsp">📲 Enviar WhatsApp</a>
+      <div class="apple-actions">
+        <button class="apple-action-btn danger" onclick="limpiarCarrito()">🗑️ Borrar todo</button>
+        <button class="apple-action-btn" onclick="window.print()">🖨️ Imprimir</button>
+        <a id="btnWsp" href="#" target="_blank" rel="noopener" class="apple-action-btn wsp">📲 Enviar WhatsApp</a>
       </div>
 
       <div id="listaCarrito"></div>
 
-      <div class="cart-total-bar">
-        <div>TOTAL</div>
-        <span id="granTotal" class="total-value">$0.00</span>
+      <div class="apple-total">
+        <span class="apple-total-label">Total</span>
+        <span class="apple-total-value" id="granTotal">$0.00</span>
       </div>
     </div>
+
   </div>
 
-  <div class="footer-notes">
+  <!-- FOOTER -->
+  <div class="apple-footer">
     Precios no incluyen I.V.A. Ni Elaboración de Diseño.<br>
     © <span id="year"></span> T&J Diseño & Publicidad
   </div>
-  <div class="footer-accent"></div>
+
 </div>
 
 <div class="toast" id="toast"></div>
@@ -396,7 +794,7 @@ input[readonly]{background:#f1f5f9;color:#64748b;cursor:not-allowed;}
    CONFIGURACIÓN
 ============================================================ */
 const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVJJlHkdYlgjZj373bUyWGygN2bwfIs0Qi_QvtNj9eVboRJwq3rT9BA_Wjo1ePb5FyRx7vGCZix1BE/pub?output=csv";
-const TEL_WHATSAPP = "526674520598"; // ← cambia por tu número real
+const TEL_WHATSAPP = "526674520598";
 const CACHE_KEY_PRODUCTOS = "tj_productos_v1";
 const CACHE_KEY_CARRITO   = "tj_carrito_v1";
 
@@ -426,7 +824,7 @@ function toast(msg){
 }
 
 /* ============================================================
-   PARSER CSV ROBUSTO (soporta multilínea y comillas dobles)
+   PARSER CSV ROBUSTO
 ============================================================ */
 function parseCSV(text){
   const rows = [];
@@ -456,7 +854,6 @@ function parseCSV(text){
 async function cargarDesdeGoogleSheets(){
   mostrarLoadingInfo();
 
-  // 1) Intenta con caché local primero (respuesta rápida)
   const cached = localStorage.getItem(CACHE_KEY_PRODUCTOS);
   if (cached){
     try {
@@ -465,7 +862,6 @@ async function cargarDesdeGoogleSheets(){
     } catch(e){ /* ignorar caché corrupto */ }
   }
 
-  // 2) Refresca desde red
   try {
     const proxied = "https://corsproxy.io/?" + encodeURIComponent(URL_GOOGLE_SHEETS);
     let r;
@@ -544,7 +940,6 @@ function poblarSelect(filtro = ""){
     select.appendChild(opt);
   });
 
-  // Restaura selección si aún existe
   if (prev && DB_PRODUCTOS[prev]) select.value = prev;
   cambiarProducto();
 }
@@ -554,7 +949,7 @@ function filtrarProductos(){
 }
 
 /* ============================================================
-   CAMBIO DE PRODUCTO (muestra/oculta campos)
+   CAMBIO DE PRODUCTO
 ============================================================ */
 function cambiarProducto(){
   const key = document.getElementById("producto").value;
@@ -574,7 +969,6 @@ function cambiarProducto(){
   infoEl.textContent = p.info;
   document.getElementById("boxResultado").style.display = "none";
 
-  // Reset de campos
   boxMedida.style.display = "none";
   baseInp.readOnly = false;
   baseInp.value = "1.00";
@@ -672,22 +1066,20 @@ function renderCarrito(){
     granTotal += item.total;
 
     const div = document.createElement("div");
-    div.className = "cart-item";
+    div.className = "apple-cart-item";
     div.innerHTML = `
-      <div class="cart-item-info">
-        <div class="cart-item-name">${esc(item.nombre)}</div>
-        <div class="cart-item-detail">${esc(item.detalle)}</div>
-        <div class="cart-item-actions">
-          <div class="qty-ctrl">
-            <button title="Menos" onclick="cambiarCantidad(${i},-1)">−</button>
-            <span>${item.cantidad ?? 1}</span>
-            <button title="Más" onclick="cambiarCantidad(${i},1)">+</button>
-          </div>
+      <div class="apple-item-info">
+        <div class="apple-item-name">${esc(item.nombre)}</div>
+        <div class="apple-item-detail">${esc(item.detalle)}</div>
+        <div class="apple-qty">
+          <button title="Menos" onclick="cambiarCantidad(${i},-1)">−</button>
+          <span>${item.cantidad ?? 1}</span>
+          <button title="Más" onclick="cambiarCantidad(${i},1)">+</button>
         </div>
       </div>
       <div style="text-align:right;">
-        <div class="cart-item-price">${fmt(item.total)}</div>
-        <button class="btn-remove" title="Eliminar"
+        <div class="apple-item-price">${fmt(item.total)}</div>
+        <button class="apple-remove" title="Eliminar"
                 onclick="eliminarItem(${i})">×</button>
       </div>
     `;
@@ -696,7 +1088,6 @@ function renderCarrito(){
 
   document.getElementById("granTotal").textContent = fmt(granTotal);
 
-  // Mensaje de WhatsApp
   let msg = "Hola *T&J Diseño & Publicidad*, solicito cotización:\n\n";
   carrito.forEach(it => {
     msg += `• *${it.nombre}*\n  ${it.detalle}\n  Subtotal: ${fmt(it.total)} MXN\n\n`;
@@ -737,7 +1128,6 @@ function limpiarCarrito(){
 ============================================================ */
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Service Worker (PWA offline)
 if ("serviceWorker" in navigator){
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js").catch(e =>
@@ -745,7 +1135,6 @@ if ("serviceWorker" in navigator){
   });
 }
 
-// Cargar catálogo y renderizar carrito persistido
 cargarDesdeGoogleSheets();
 renderCarrito();
 </script>
