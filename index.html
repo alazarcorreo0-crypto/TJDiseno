@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cotizador | T&J Diseño & Publicidad</title>
     
-    <!-- Iconos de Pestaña y PWA (App Móvil) -->
-    <link rel="icon" type="image/png" href="logo.png?v=2">
+    <!-- Iconos de Pestaña y App Móvil (PWA) -->
+    <link rel="icon" type="image/png" href="logo.png?v=3">
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#111827">
@@ -25,10 +25,10 @@
 
         * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
         
-        /* Fondo Adaptable para PC y Celular */
+        /* Configuración de Fondo de Pantalla Adaptable */
         body {
             background-color: var(--tj-gray);
-            background-image: url('fondo.jpg');
+            background-image: url('./fondo.jpg');
             background-position: center center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -48,9 +48,9 @@
         .cotizador-card {
             max-width: 500px;
             margin: auto;
-            background: rgba(255, 255, 255, 0.96); /* Blanco semi-transparente elegante */
+            background: rgba(255, 255, 255, 0.96);
             border-radius: var(--tj-radius);
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
             overflow: hidden;
             border: 2px solid var(--tj-dark);
             backdrop-filter: blur(5px);
@@ -59,7 +59,7 @@
         .header {
             position: relative;
             background: var(--tj-card);
-            padding: 20px;
+            padding: 22px 20px 18px;
             text-align: center;
             border-bottom: 1px solid var(--tj-border);
         }
@@ -73,28 +73,29 @@
 
         .header-logo-container {
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 4px;
+            align-items: center;
+            margin-bottom: 6px;
         }
 
+        /* Estilo del Logo Centrado y Grande */
         .header-logo-img {
-            width: 45px;
-            height: 45px;
+            width: 110px;
+            height: auto;
+            max-height: 110px;
             object-fit: contain;
+            display: block;
+            margin: 0 auto;
         }
 
-        .logo-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--tj-dark);
-            letter-spacing: -0.5px;
-            margin: 0;
+        .logo-subtitle { 
+            font-size: 0.8rem; 
+            text-transform: uppercase; 
+            color: #64748b; 
+            font-weight: 700; 
+            letter-spacing: 1.5px; 
+            margin-top: 4px; 
         }
-
-        .logo-title span.amp { color: var(--tj-magenta); }
-        .logo-subtitle { font-size: 0.78rem; text-transform: uppercase; color: #64748b; font-weight: 700; letter-spacing: 1.5px; margin-top: 2px; }
 
         .body-content { padding: 20px; }
         .form-group { margin-bottom: 16px; }
@@ -204,8 +205,7 @@
     <div class="header">
         <div class="header-accent"></div>
         <div class="header-logo-container">
-            <img src="logo.png" alt="Logo T&J" class="header-logo-img" onerror="this.style.display='none'">
-            <h1 class="logo-title">T<span class="amp">&</span>J</h1>
+            <img src="./logo.png" alt="Logo T&J" class="header-logo-img">
         </div>
         <div class="logo-subtitle">Diseño & Publicidad</div>
     </div>
