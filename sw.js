@@ -1,5 +1,5 @@
-/* Service Worker - T&J Cotizador v2 */
-const CACHE_NAME = "tj-cotizador-v2";   // ← cambia v1 → v2
+/* Service Worker - T&J Cotizador v3 */
+const CACHE_NAME = "tj-cotizador-v3";
 const ASSETS = [
   "./",
   "./index.html",
