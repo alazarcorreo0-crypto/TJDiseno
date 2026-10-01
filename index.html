@@ -54,6 +54,7 @@ body{
   box-shadow:var(--tj-shadow);
   overflow:hidden;
   border:2px solid var(--tj-dark);
+  border-bottom:none;
   backdrop-filter:blur(8px);
   animation:fadeIn .35s ease;
 }
@@ -247,6 +248,18 @@ input[readonly]{background:#f1f5f9;color:#64748b;cursor:not-allowed;}
   border-top:1px solid var(--tj-border);line-height:1.5;
 }
 
+/* 🔽 FRANJA INFERIOR — espejo del header */
+.footer-accent{
+  height:5px;
+  background:linear-gradient(to right,
+    var(--tj-cyan) 33.3%,
+    var(--tj-yellow) 33.3% 66.6%,
+    var(--tj-magenta) 66.6%);
+  border:2px solid var(--tj-dark);
+  border-top:none;
+  border-radius:0 0 calc(var(--tj-radius) - 2px) calc(var(--tj-radius) - 2px);
+}
+
 .toast{
   position:fixed;bottom:20px;left:50%;
   transform:translateX(-50%) translateY(80px);
@@ -280,10 +293,15 @@ input[readonly]{background:#f1f5f9;color:#64748b;cursor:not-allowed;}
 
 @media print{
   body{background:#fff !important;padding:0;}
-  .cotizador-card{box-shadow:none;border:1px solid #ccc;}
+  .cotizador-card{box-shadow:none;border:1px solid #ccc;border-bottom:none;}
   .action-buttons,.btn-main,.btn-add,.header-accent,
   .footer-notes{display:none !important;}
   .result-box{display:none !important;}
+  .footer-accent{
+    display:block !important;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
 }
 </style>
 </head>
@@ -365,9 +383,10 @@ input[readonly]{background:#f1f5f9;color:#64748b;cursor:not-allowed;}
   </div>
 
   <div class="footer-notes">
-    Precios no incluyen I.V.A. ni Elaboración de Diseño.<br>
+    Precios no incluyen I.V.A. Ni Elaboración de Diseño.<br>
     © <span id="year"></span> T&J Diseño & Publicidad
   </div>
+  <div class="footer-accent"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -377,7 +396,7 @@ input[readonly]{background:#f1f5f9;color:#64748b;cursor:not-allowed;}
    CONFIGURACIÓN
 ============================================================ */
 const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVJJlHkdYlgjZj373bUyWGygN2bwfIs0Qi_QvtNj9eVboRJwq3rT9BA_Wjo1ePb5FyRx7vGCZix1BE/pub?output=csv";
-const TEL_WHATSAPP = "5210000000000"; // ← cambia por tu número real
+const TEL_WHATSAPP = "526674520598"; // ← cambia por tu número real
 const CACHE_KEY_PRODUCTOS = "tj_productos_v1";
 const CACHE_KEY_CARRITO   = "tj_carrito_v1";
 
