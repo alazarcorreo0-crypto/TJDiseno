@@ -1,457 +1,734 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotizador | T&J Diseño & Publicidad</title>
-    
-    <!-- Iconos de Pestaña y App Móvil (PWA) -->
-    <link rel="icon" type="image/png" href="logo.png?v=3">
-    <link rel="apple-touch-icon" href="logo.png">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#111827">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Cotizador en línea de T&J Diseño & Publicidad">
+<title>Cotizador | T&J Diseño & Publicidad</title>
 
-    <style>
-        :root {
-            --tj-cyan: #00aeef;
-            --tj-magenta: #ec008c;
-            --tj-yellow: #fff200;
-            --tj-dark: #111827;
-            --tj-gray: #f8fafc;
-            --tj-card: #ffffff;
-            --tj-border: #e2e8f0;
-            --tj-radius: 12px;
-        }
+<link rel="icon" type="image/png" href="./logo.png?v=3">
+<link rel="apple-touch-icon" href="./logo.png">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-        * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-        
-        /* Configuración de Fondo de Pantalla Adaptable */
-        body {
-            background-color: var(--tj-gray);
-            background-image: url('./fondo.jpg');
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-attachment: fixed;
-            margin: 0;
-            padding: 20px 15px;
-            color: #334155;
-            min-height: 100vh;
-        }
+<style>
+:root{
+  --tj-cyan:#00aeef;
+  --tj-magenta:#ec008c;
+  --tj-yellow:#fff200;
+  --tj-dark:#111827;
+  --tj-gray:#f8fafc;
+  --tj-card:#ffffff;
+  --tj-border:#e2e8f0;
+  --tj-radius:14px;
+  --tj-shadow:0 10px 30px -12px rgba(0,0,0,.35);
+}
 
-        @media (max-width: 768px) {
-            body {
-                background-attachment: scroll;
-            }
-        }
+*{box-sizing:border-box;font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;}
+html,body{margin:0;padding:0;}
 
-        .cotizador-card {
-            max-width: 500px;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: var(--tj-radius);
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
-            overflow: hidden;
-            border: 2px solid var(--tj-dark);
-            backdrop-filter: blur(5px);
-        }
+body{
+  background-color:var(--tj-gray);
+  background-image:url('./fondo.jpg');
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-attachment:fixed;
+  padding:20px 15px calc(20px + env(safe-area-inset-bottom));
+  color:#334155;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
 
-        .header {
-            position: relative;
-            background: var(--tj-card);
-            padding: 22px 20px 18px;
-            text-align: center;
-            border-bottom: 1px solid var(--tj-border);
-        }
+@media(max-width:768px){
+  body{background-attachment:scroll;}
+}
 
-        .header-accent {
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 5px;
-            background: linear-gradient(to right, var(--tj-cyan) 33.3%, var(--tj-yellow) 33.3% 66.6%, var(--tj-magenta) 66.6%);
-        }
+.cotizador-card{
+  max-width:560px;
+  margin:auto;
+  background:rgba(255,255,255,.97);
+  border-radius:var(--tj-radius);
+  box-shadow:var(--tj-shadow);
+  overflow:hidden;
+  border:2px solid var(--tj-dark);
+  backdrop-filter:blur(8px);
+  animation:fadeIn .35s ease;
+}
 
-        .header-logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 6px;
-        }
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(8px);}
+  to{opacity:1;transform:translateY(0);}
+}
 
-        /* Estilo del Logo Centrado y Grande */
-        .header-logo-img {
-            width: 110px;
-            height: auto;
-            max-height: 110px;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
-        }
+.header{
+  position:relative;
+  background:var(--tj-card);
+  padding:22px 20px 18px;
+  text-align:center;
+  border-bottom:1px solid var(--tj-border);
+}
 
-        .logo-subtitle { 
-            font-size: 0.8rem; 
-            text-transform: uppercase; 
-            color: #64748b; 
-            font-weight: 700; 
-            letter-spacing: 1.5px; 
-            margin-top: 4px; 
-        }
+.header-accent{
+  position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(to right,var(--tj-cyan) 33.3%,var(--tj-yellow) 33.3% 66.6%,var(--tj-magenta) 66.6%);
+}
 
-        .body-content { padding: 20px; }
-        .form-group { margin-bottom: 16px; }
-        label { display: block; font-weight: 600; font-size: 0.82rem; margin-bottom: 6px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        select, input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--tj-border);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            background-color: #fff;
-        }
+.header-logo-img{
+  width:110px;height:auto;max-height:110px;
+  object-fit:contain;display:block;margin:0 auto;
+}
 
-        .price-info-box {
-            background-color: #f0f9ff;
-            border-left: 4px solid var(--tj-cyan);
-            border-radius: 0 8px 8px 0;
-            padding: 10px 12px;
-            margin-bottom: 16px;
-            font-size: 0.82rem;
-            color: #0369a1;
-        }
+.logo-subtitle{
+  font-size:.8rem;text-transform:uppercase;color:#64748b;
+  font-weight:700;letter-spacing:1.5px;margin-top:4px;
+}
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.body-content{padding:20px;}
 
-        .btn-main {
-            width: 100%;
-            background: var(--tj-dark);
-            color: #fff;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-        }
+.form-group{margin-bottom:16px;}
 
-        .result-box {
-            background: #fafafa;
-            border: 2px dashed var(--tj-magenta);
-            color: var(--tj-dark);
-            border-radius: 10px;
-            padding: 18px;
-            text-align: center;
-            margin-top: 18px;
-            display: none;
-        }
-        .result-box .amount { font-size: 2.2rem; font-weight: 800; color: var(--tj-magenta); margin: 4px 0; }
+label{
+  display:block;font-weight:700;font-size:.78rem;margin-bottom:6px;
+  color:#475569;text-transform:uppercase;letter-spacing:.5px;
+}
 
-        .btn-add {
-            background: var(--tj-cyan);
-            color: #fff;
-            border: none;
-            padding: 9px 18px;
-            border-radius: 6px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+select,input,textarea{
+  width:100%;padding:12px 14px;border:1px solid var(--tj-border);
+  border-radius:10px;font-size:.95rem;outline:none;background:#fff;
+  transition:border-color .2s,box-shadow .2s;
+  font-family:inherit;
+}
 
-        .cart-section { margin-top: 25px; border-top: 1px solid var(--tj-border); padding-top: 18px; }
-        .cart-title { text-align: center; font-size: 1rem; margin-bottom: 12px; font-weight: 800; color: var(--tj-dark); }
+select:focus,input:focus,textarea:focus{
+  border-color:var(--tj-cyan);
+  box-shadow:0 0 0 3px rgba(0,174,239,.15);
+}
 
-        .action-buttons { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; }
-        .btn-action { border: none; padding: 8px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; color: white; text-decoration: none; }
-        .btn-clear { background: #fff; color: #ef4444; border: 1px solid #fca5a5; }
-        .btn-print { background: #64748b; }
-        .btn-wsp { background: #22c55e; }
+input[readonly]{background:#f1f5f9;color:#64748b;cursor:not-allowed;}
 
-        .cart-item {
-            background: #ffffff;
-            border: 1px solid var(--tj-border);
-            border-left: 4px solid var(--tj-dark);
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.search-box{position:relative;margin-bottom:12px;}
+.search-box input{padding-left:36px;}
+.search-box::before{
+  content:"🔍";position:absolute;left:12px;top:50%;
+  transform:translateY(-50%);font-size:.9rem;opacity:.5;pointer-events:none;
+}
 
-        .cart-total-bar {
-            background: var(--tj-dark);
-            color: #fff;
-            padding: 14px 16px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 800;
-        }
+.price-info-box{
+  background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);
+  border-left:4px solid var(--tj-cyan);
+  border-radius:0 10px 10px 0;
+  padding:12px 14px;margin-bottom:16px;
+  font-size:.82rem;color:#0369a1;line-height:1.4;
+}
 
-        .footer-notes {
-            font-size: 0.72rem;
-            color: #94a3b8;
-            text-align: center;
-            padding: 14px;
-            background: #fafafa;
-            border-top: 1px solid var(--tj-border);
-        }
-    </style>
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+.btn-main{
+  width:100%;background:var(--tj-dark);color:#fff;border:none;
+  padding:15px;border-radius:10px;font-weight:700;font-size:.95rem;
+  cursor:pointer;transition:transform .12s,background .2s;
+  letter-spacing:.3px;
+}
+
+.btn-main:hover{background:#1e293b;}
+.btn-main:active{transform:scale(.98);}
+
+.result-box{
+  background:#fafafa;
+  border:2px dashed var(--tj-magenta);
+  border-radius:12px;padding:18px;text-align:center;
+  margin-top:18px;display:none;
+  animation:slideDown .25s ease;
+}
+
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-6px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.result-box .amount{
+  font-size:2.2rem;font-weight:800;color:var(--tj-magenta);
+  margin:4px 0;letter-spacing:-1px;
+}
+
+.btn-add{
+  background:var(--tj-cyan);color:#fff;border:none;
+  padding:11px 22px;border-radius:8px;font-weight:700;
+  cursor:pointer;font-size:.9rem;transition:background .2s;
+}
+
+.btn-add:hover{background:#0095cc;}
+
+.cart-section{
+  margin-top:25px;border-top:2px solid var(--tj-border);
+  padding-top:18px;
+}
+
+.cart-title{
+  text-align:center;font-size:1.05rem;margin-bottom:14px;
+  font-weight:800;color:var(--tj-dark);
+}
+
+.action-buttons{
+  display:flex;gap:8px;justify-content:center;
+  margin-bottom:15px;flex-wrap:wrap;
+}
+
+.btn-action{
+  border:none;padding:9px 14px;border-radius:8px;
+  font-size:.78rem;font-weight:700;cursor:pointer;
+  color:#fff;text-decoration:none;transition:opacity .2s;
+  display:inline-flex;align-items:center;gap:4px;
+}
+
+.btn-action:hover{opacity:.85;}
+.btn-clear{background:#fff;color:#ef4444;border:1px solid #fca5a5;}
+.btn-print{background:#64748b;}
+.btn-wsp{background:#22c55e;}
+
+.cart-item{
+  background:#fff;border:1px solid var(--tj-border);
+  border-left:4px solid var(--tj-dark);
+  border-radius:8px;padding:12px;margin-bottom:10px;
+  display:flex;justify-content:space-between;gap:10px;
+  align-items:flex-start;animation:fadeIn .25s;
+}
+
+.cart-item-info{flex:1;min-width:0;}
+.cart-item-name{
+  font-weight:700;font-size:.9rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.cart-item-detail{font-size:.72rem;color:#64748b;margin-top:2px;}
+.cart-item-price{font-weight:800;font-size:.95rem;white-space:nowrap;}
+.cart-item-actions{
+  display:flex;align-items:center;gap:6px;margin-top:6px;
+}
+.qty-ctrl{
+  display:inline-flex;align-items:center;gap:0;
+  border:1px solid var(--tj-border);border-radius:6px;overflow:hidden;
+}
+.qty-ctrl button{
+  background:#f8fafc;border:none;padding:3px 8px;
+  cursor:pointer;font-weight:700;color:#475569;font-size:.85rem;
+}
+.qty-ctrl button:hover{background:#e2e8f0;}
+.qty-ctrl span{padding:3px 8px;font-size:.8rem;font-weight:700;min-width:26px;text-align:center;}
+
+.btn-remove{
+  background:#fee2e2;color:#ef4444;border:none;
+  border-radius:6px;width:26px;height:26px;cursor:pointer;
+  font-weight:700;line-height:1;font-size:1rem;
+}
+.btn-remove:hover{background:#fecaca;}
+
+.cart-total-bar{
+  background:var(--tj-dark);color:#fff;
+  padding:16px;border-radius:10px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-weight:800;margin-top:6px;
+}
+
+.cart-total-bar .total-value{
+  color:var(--tj-yellow);font-size:1.35rem;letter-spacing:-.5px;
+}
+
+.notes-input{
+  margin-top:6px;font-size:.8rem;
+  padding:6px 8px;border-radius:6px;
+}
+
+.footer-notes{
+  font-size:.72rem;color:#94a3b8;text-align:center;
+  padding:14px;background:#fafafa;
+  border-top:1px solid var(--tj-border);line-height:1.5;
+}
+
+.toast{
+  position:fixed;bottom:20px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--tj-dark);color:#fff;
+  padding:12px 20px;border-radius:10px;
+  font-size:.85rem;font-weight:600;
+  box-shadow:0 8px 24px rgba(0,0,0,.3);
+  opacity:0;transition:all .3s ease;z-index:9999;
+  pointer-events:none;
+}
+
+.toast.show{
+  opacity:1;transform:translateX(-50%) translateY(0);
+}
+
+.loading-shimmer{
+  display:inline-block;width:100%;height:14px;
+  background:linear-gradient(90deg,#e2e8f0 0%,#f1f5f9 50%,#e2e8f0 100%);
+  background-size:200% 100%;animation:shimmer 1.4s infinite;
+  border-radius:4px;
+}
+
+@keyframes shimmer{
+  0%{background-position:200% 0;}
+  100%{background-position:-200% 0;}
+}
+
+.empty-cart{
+  text-align:center;color:#94a3b8;font-size:.85rem;padding:16px;
+}
+
+@media print{
+  body{background:#fff !important;padding:0;}
+  .cotizador-card{box-shadow:none;border:1px solid #ccc;}
+  .action-buttons,.btn-main,.btn-add,.header-accent,
+  .footer-notes{display:none !important;}
+  .result-box{display:none !important;}
+}
+</style>
 </head>
 <body>
 
 <div class="cotizador-card">
-    <div class="header">
-        <div class="header-accent"></div>
-        <div class="header-logo-container">
-            <img src="./logo.png" alt="Logo T&J" class="header-logo-img">
-        </div>
-        <div class="logo-subtitle">Diseño & Publicidad</div>
+  <div class="header">
+    <div class="header-accent"></div>
+    <div class="header-logo-container">
+      <img src="./logo.png" alt="Logo T&J" class="header-logo-img"
+           onerror="this.style.display='none'">
+    </div>
+    <div class="logo-subtitle">Diseño & Publicidad</div>
+  </div>
+
+  <div class="body-content">
+
+    <div class="search-box">
+      <input type="text" id="buscador" placeholder="Buscar producto..."
+             oninput="filtrarProductos()" autocomplete="off">
     </div>
 
-    <div class="body-content">
-        <div class="form-group">
-            <label for="producto">Selecciona un Producto</label>
-            <select id="producto" onchange="cambiarProducto()">
-                <option value="">Cargando catálogo...</option>
-            </select>
-        </div>
-
-        <div class="price-info-box" id="infoPrecio"></div>
-
-        <div id="camposMedida" style="display: none;">
-            <div class="grid-2 form-group">
-                <div>
-                    <label id="lblBase">Base (m)</label>
-                    <input type="number" id="base" value="1.00" step="0.01">
-                </div>
-                <div>
-                    <label id="lblAltura">Altura (m)</label>
-                    <input type="number" id="altura" value="1.00" step="0.01">
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label id="lblCantidad">Cantidad</label>
-            <input type="number" id="cantidad" value="1" min="1">
-        </div>
-
-        <button class="btn-main" onclick="calcular()">Calcular Presupuesto</button>
-
-        <div class="result-box" id="boxResultado">
-            <div style="text-transform: uppercase; font-size: 0.75rem; font-weight: 700; color: #64748b;">Subtotal Estimado</div>
-            <div class="amount" id="resMonto">$0.00</div>
-            <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px;" id="resDetalle"></div>
-            <button class="btn-add" onclick="agregarAlCarrito()">+ Añadir a la lista</button>
-        </div>
-
-        <div class="cart-section" id="seccionCarrito" style="display: none;">
-            <div class="cart-title">Tu Cotización</div>
-            <div class="action-buttons">
-                <button class="btn-action btn-clear" onclick="limpiarCarrito()">Borrar Todo</button>
-                <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir</button>
-                <a id="btnWsp" href="#" target="_blank" class="btn-action btn-wsp">📲 Enviar a WhatsApp</a>
-            </div>
-
-            <div id="listaCarrito"></div>
-
-            <div class="cart-total-bar">
-                <div>TOTAL</div>
-                <span id="granTotal" style="color: var(--tj-yellow); font-size: 1.3rem;">$0.00</span>
-            </div>
-        </div>
+    <div class="form-group">
+      <label for="producto">Selecciona un Producto</label>
+      <select id="producto" onchange="cambiarProducto()">
+        <option value="">Cargando catálogo...</option>
+      </select>
     </div>
 
-    <div class="footer-notes">
-        Precios no incluyen I.V.A. ni Elaboración de Diseño.<br>
-        © T&J Diseño & Publicidad
+    <div class="price-info-box" id="infoPrecio">
+      <span class="loading-shimmer"></span>
     </div>
+
+    <div id="camposMedida" style="display:none;">
+      <div class="grid-2 form-group">
+        <div>
+          <label id="lblBase">Base (m)</label>
+          <input type="number" id="base" value="1.00" step="0.01" min="0.01" inputmode="decimal">
+        </div>
+        <div>
+          <label id="lblAltura">Altura (m)</label>
+          <input type="number" id="altura" value="1.00" step="0.01" min="0.01" inputmode="decimal">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label id="lblCantidad">Cantidad</label>
+      <input type="number" id="cantidad" value="1" min="1" step="1" inputmode="numeric">
+    </div>
+
+    <button class="btn-main" onclick="calcular()">Calcular Presupuesto</button>
+
+    <div class="result-box" id="boxResultado">
+      <div style="text-transform:uppercase;font-size:.72rem;font-weight:700;color:#64748b;">
+        Subtotal Estimado
+      </div>
+      <div class="amount" id="resMonto">$0.00</div>
+      <div style="font-size:.8rem;color:#64748b;margin-bottom:12px;" id="resDetalle"></div>
+      <button class="btn-add" onclick="agregarAlCarrito()">+ Añadir a la lista</button>
+    </div>
+
+    <div class="cart-section" id="seccionCarrito" style="display:none;">
+      <div class="cart-title">Tu Cotización</div>
+
+      <div class="action-buttons">
+        <button class="btn-action btn-clear" onclick="limpiarCarrito()">🗑️ Borrar Todo</button>
+        <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir</button>
+        <a id="btnWsp" href="#" target="_blank" rel="noopener" class="btn-action btn-wsp">📲 Enviar WhatsApp</a>
+      </div>
+
+      <div id="listaCarrito"></div>
+
+      <div class="cart-total-bar">
+        <div>TOTAL</div>
+        <span id="granTotal" class="total-value">$0.00</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-notes">
+    Precios no incluyen I.V.A. ni Elaboración de Diseño.<br>
+    © <span id="year"></span> T&J Diseño & Publicidad
+  </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-    const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVJJlHkdYlgjZj373bUyWGygN2bwfIs0Qi_QvtNj9eVboRJwq3rT9BA_Wjo1ePb5FyRx7vGCZix1BE/pub?output=csv";
-    
-    let DB_PRODUCTOS = {};
-    let itemActual = null, carrito = [];
-    const TEL_WHATSAPP = "5210000000000";
+/* ============================================================
+   CONFIGURACIÓN
+============================================================ */
+const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVJJlHkdYlgjZj373bUyWGygN2bwfIs0Qi_QvtNj9eVboRJwq3rT9BA_Wjo1ePb5FyRx7vGCZix1BE/pub?output=csv";
+const TEL_WHATSAPP = "5210000000000"; // ← cambia por tu número real
+const CACHE_KEY_PRODUCTOS = "tj_productos_v1";
+const CACHE_KEY_CARRITO   = "tj_carrito_v1";
 
-    function parseCSV(text) {
-        const lines = text.trim().split('\n');
-        return lines.map(line => {
-            const values = [];
-            let current = '';
-            let inQuotes = false;
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"' || char === "'") {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    values.push(current.trim().replace(/^["']|["']$/g, ''));
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-            values.push(current.trim().replace(/^["']|["']$/g, ''));
-            return values;
-        });
+let DB_PRODUCTOS = {};
+let itemActual = null;
+let carrito = JSON.parse(localStorage.getItem(CACHE_KEY_CARRITO) || "[]");
+
+/* ============================================================
+   UTILIDADES
+============================================================ */
+function esc(str){
+  return String(str ?? "").replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function fmt(n){
+  return "$" + Number(n).toFixed(2);
+}
+
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove("show"), 2000);
+}
+
+/* ============================================================
+   PARSER CSV ROBUSTO (soporta multilínea y comillas dobles)
+============================================================ */
+function parseCSV(text){
+  const rows = [];
+  let row = [], field = "", inQuotes = false;
+  for (let i = 0; i < text.length; i++){
+    const c = text[i];
+    if (inQuotes){
+      if (c === '"'){
+        if (text[i+1] === '"'){ field += '"'; i++; }
+        else inQuotes = false;
+      } else field += c;
+    } else {
+      if (c === '"') inQuotes = true;
+      else if (c === ','){ row.push(field); field = ""; }
+      else if (c === '\n'){ row.push(field); rows.push(row); row = []; field = ""; }
+      else if (c === '\r'){ /* ignorar */ }
+      else field += c;
+    }
+  }
+  if (field.length || row.length){ row.push(field); rows.push(row); }
+  return rows;
+}
+
+/* ============================================================
+   CARGA DE PRODUCTOS
+============================================================ */
+async function cargarDesdeGoogleSheets(){
+  mostrarLoadingInfo();
+
+  // 1) Intenta con caché local primero (respuesta rápida)
+  const cached = localStorage.getItem(CACHE_KEY_PRODUCTOS);
+  if (cached){
+    try {
+      DB_PRODUCTOS = JSON.parse(cached);
+      poblarSelect();
+    } catch(e){ /* ignorar caché corrupto */ }
+  }
+
+  // 2) Refresca desde red
+  try {
+    const proxied = "https://corsproxy.io/?" + encodeURIComponent(URL_GOOGLE_SHEETS);
+    let r;
+    try { r = await fetch(proxied, { cache: "no-store" }); }
+    catch(e){ r = null; }
+
+    if (!r || !r.ok){
+      r = await fetch(URL_GOOGLE_SHEETS, { cache: "no-store" });
+    }
+    if (!r.ok) throw new Error("HTTP " + r.status);
+
+    const csv = await r.text();
+    const filas = parseCSV(csv);
+    const nuevaDB = {};
+
+    for (let i = 1; i < filas.length; i++){
+      const f = filas[i];
+      if (!f || f.length < 4) continue;
+      const [id, nombre, tipo, precio, info] = f;
+      if (!id?.trim() || !nombre?.trim()) continue;
+
+      nuevaDB[id.trim()] = {
+        nombre: nombre.trim(),
+        tipo: (tipo || "unidad").trim().toLowerCase(),
+        precio: parseFloat(precio) || 0,
+        info: (info || `Tarifa: $${precio}`).trim()
+      };
     }
 
-    async function cargarDesdeGoogleSheets() {
-        try {
-            const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(URL_GOOGLE_SHEETS);
-            let respuesta = await fetch(proxyUrl);
-            
-            if (!respuesta.ok) {
-                respuesta = await fetch(URL_GOOGLE_SHEETS);
-            }
-            
-            if (!respuesta.ok) throw new Error("Error HTTP " + respuesta.status);
-            
-            const dataCSV = await respuesta.text();
-            const filas = parseCSV(dataCSV);
-            
-            DB_PRODUCTOS = {};
+    if (Object.keys(nuevaDB).length === 0) throw new Error("Catálogo vacío");
 
-            for (let i = 1; i < filas.length; i++) {
-                const fila = filas[i];
-                if (fila.length >= 4) {
-                    const id = fila[0];
-                    const nombre = fila[1];
-                    const tipo = fila[2];
-                    const precio = fila[3];
-                    const info = fila[4] || `Tarifa: $${precio}`;
-
-                    if (id && nombre) {
-                        const cleanId = id.trim();
-                        DB_PRODUCTOS[cleanId] = {
-                            nombre: nombre.trim(),
-                            tipo: tipo ? tipo.trim() : 'unidad',
-                            precio: parseFloat(precio) || 0,
-                            info: info.trim()
-                        };
-                    }
-                }
-            }
-
-            poblarSelect();
-        } catch (error) {
-            console.error("Error cargando Google Sheets:", error);
-            alert("No se pudieron cargar los productos desde Google Sheets. Verifica la conexión.");
-        }
+    DB_PRODUCTOS = nuevaDB;
+    localStorage.setItem(CACHE_KEY_PRODUCTOS, JSON.stringify(nuevaDB));
+    poblarSelect();
+  } catch(err){
+    console.error("Error cargando productos:", err);
+    if (!cached){
+      document.getElementById("producto").innerHTML =
+        '<option value="">⚠️ Error al cargar catálogo</option>';
+      document.getElementById("infoPrecio").textContent =
+        "No se pudieron cargar los productos. Revisa tu conexión.";
     }
+  }
+}
 
-    function poblarSelect() {
-        const select = document.getElementById('producto');
-        select.innerHTML = '';
-        Object.keys(DB_PRODUCTOS).forEach(key => {
-            const opt = document.createElement('option');
-            opt.value = key;
-            opt.innerText = DB_PRODUCTOS[key].nombre;
-            select.appendChild(opt);
-        });
-        cambiarProducto();
-    }
+function mostrarLoadingInfo(){
+  document.getElementById("infoPrecio").innerHTML =
+    '<span class="loading-shimmer"></span>';
+}
 
-    function cambiarProducto() {
-        const key = document.getElementById('producto').value;
-        if (!key || !DB_PRODUCTOS[key]) return;
-        const p = DB_PRODUCTOS[key];
-        document.getElementById('infoPrecio').innerHTML = p.info;
-        document.getElementById('boxResultado').style.display = 'none';
+/* ============================================================
+   SELECT DE PRODUCTOS
+============================================================ */
+function poblarSelect(filtro = ""){
+  const select = document.getElementById("producto");
+  const prev = select.value;
+  select.innerHTML = "";
 
-        const boxMedida = document.getElementById('camposMedida');
-        const inputBase = document.getElementById('base');
+  const q = filtro.trim().toLowerCase();
+  const entries = Object.entries(DB_PRODUCTOS)
+    .filter(([k, v]) => !q || v.nombre.toLowerCase().includes(q));
 
-        if (p.tipo === 'm2') {
-            boxMedida.style.display = 'block';
-            inputBase.readOnly = false;
-            document.getElementById('lblCantidad').innerText = 'Cantidad de piezas';
-        } else if (p.tipo === 'lineal_dtf') {
-            boxMedida.style.display = 'block';
-            inputBase.value = 0.60;
-            inputBase.readOnly = true;
-            document.getElementById('lblCantidad').innerText = 'Cantidad de ejemplares';
-        } else {
-            boxMedida.style.display = 'none';
-            document.getElementById('lblCantidad').innerText = p.tipo === 'millar' ? 'Cantidad (Millares)' : 'Cantidad';
-        }
-    }
+  if (entries.length === 0){
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = "Sin resultados";
+    select.appendChild(opt);
+    cambiarProducto();
+    return;
+  }
 
-    function calcular() {
-        const key = document.getElementById('producto').value;
-        const p = DB_PRODUCTOS[key];
-        const cantidad = parseFloat(document.getElementById('cantidad').value) || 1;
-        let total = 0, detalle = "";
+  entries.forEach(([key, p]) => {
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = p.nombre;
+    select.appendChild(opt);
+  });
 
-        if (p.tipo === 'millar' || p.tipo === 'unidad') {
-            total = p.precio * cantidad;
-            detalle = p.tipo === 'millar' ? `${cantidad} millar(es)` : `${cantidad} pieza(s)`;
-        } else if (p.tipo === 'm2') {
-            const b = parseFloat(document.getElementById('base').value) || 1;
-            const a = parseFloat(document.getElementById('altura').value) || 1;
-            total = (b * a) * p.precio * cantidad;
-            detalle = `Medida: ${b}m x ${a}m | Piezas: ${cantidad}`;
-        } else if (p.tipo === 'lineal_dtf') {
-            const a = parseFloat(document.getElementById('altura').value) || 0;
-            let pUnitario = a <= 0.20 ? 100 : a * p.precio;
-            total = pUnitario * cantidad;
-            detalle = `Medida: 0.60m x ${a}m | Ejemplares: ${cantidad}`;
-        }
+  // Restaura selección si aún existe
+  if (prev && DB_PRODUCTOS[prev]) select.value = prev;
+  cambiarProducto();
+}
 
-        itemActual = { nombre: p.nombre, total, detalle };
-        document.getElementById('resMonto').innerText = '$' + total.toFixed(2);
-        document.getElementById('resDetalle').innerText = detalle;
-        document.getElementById('boxResultado').style.display = 'block';
-    }
+function filtrarProductos(){
+  poblarSelect(document.getElementById("buscador").value);
+}
 
-    function agregarAlCarrito() {
-        if (!itemActual) return;
-        carrito.push({...itemActual});
-        renderCarrito();
-        document.getElementById('boxResultado').style.display = 'none';
-    }
+/* ============================================================
+   CAMBIO DE PRODUCTO (muestra/oculta campos)
+============================================================ */
+function cambiarProducto(){
+  const key = document.getElementById("producto").value;
+  const infoEl = document.getElementById("infoPrecio");
+  const boxMedida = document.getElementById("camposMedida");
+  const baseInp = document.getElementById("base");
+  const altInp  = document.getElementById("altura");
+  const cantLbl = document.getElementById("lblCantidad");
 
-    function renderCarrito() {
-        const sec = document.getElementById('seccionCarrito');
-        const list = document.getElementById('listaCarrito');
-        if (carrito.length === 0) { sec.style.display = 'none'; return; }
+  if (!key || !DB_PRODUCTOS[key]){
+    infoEl.textContent = "Selecciona un producto para ver su tarifa.";
+    boxMedida.style.display = "none";
+    return;
+  }
 
-        sec.style.display = 'block';
-        list.innerHTML = '';
-        let granTotal = 0;
-        let msg = "Hola *T%26J Diseño %26 Publicidad*, solicito cotización:%0A%0A";
+  const p = DB_PRODUCTOS[key];
+  infoEl.textContent = p.info;
+  document.getElementById("boxResultado").style.display = "none";
 
-        carrito.forEach((item, i) => {
-            granTotal += item.total;
-            msg += `• *${item.nombre}*%0A  ${item.detalle}%0A  Subtotal: $${item.total.toFixed(2)} MXN%0A%0A`;
-            
-            const div = document.createElement('div');
-            div.className = 'cart-item';
-            div.innerHTML = `
-                <div>
-                    <div style="font-weight:700;">${item.nombre}</div>
-                    <div style="font-size:0.75rem; color:#64748b;">${item.detalle}</div>
-                </div>
-                <div style="display:flex; align-items:center;">
-                    <span style="font-weight:800;">$${item.total.toFixed(2)}</span>
-                    <button onclick="carrito.splice(${i},1); renderCarrito();" style="background:#fee2e2; color:#ef4444; border:none; border-radius:4px; margin-left:8px; cursor:pointer;">×</button>
-                </div>
-            `;
-            list.appendChild(div);
-        });
+  // Reset de campos
+  boxMedida.style.display = "none";
+  baseInp.readOnly = false;
+  baseInp.value = "1.00";
+  altInp.value  = "1.00";
+  cantLbl.textContent = "Cantidad";
 
-        document.getElementById('granTotal').innerText = '$' + granTotal.toFixed(2);
-        msg += `*Total Estimado: $${granTotal.toFixed(2)} MXN*`;
-        document.getElementById('btnWsp').href = `https://wa.me/${TEL_WHATSAPP}?text=${msg}`;
-    }
+  if (p.tipo === "m2"){
+    boxMedida.style.display = "block";
+    cantLbl.textContent = "Cantidad de piezas";
+  } else if (p.tipo === "lineal_dtf"){
+    boxMedida.style.display = "block";
+    baseInp.value = "0.60";
+    baseInp.readOnly = true;
+    cantLbl.textContent = "Cantidad de ejemplares";
+  } else if (p.tipo === "millar"){
+    cantLbl.textContent = "Cantidad (Millares)";
+  }
+}
 
-    function limpiarCarrito() { carrito = []; renderCarrito(); }
+/* ============================================================
+   CÁLCULO
+============================================================ */
+function calcular(){
+  const key = document.getElementById("producto").value;
+  if (!key || !DB_PRODUCTOS[key]){ toast("Selecciona un producto"); return; }
 
-    cargarDesdeGoogleSheets();
+  const p = DB_PRODUCTOS[key];
+  const cantidad = parseFloat(document.getElementById("cantidad").value);
+
+  if (!Number.isFinite(cantidad) || cantidad <= 0){
+    toast("La cantidad debe ser mayor a 0");
+    return;
+  }
+
+  let total = 0, detalle = "";
+
+  if (p.tipo === "millar" || p.tipo === "unidad"){
+    total = p.precio * cantidad;
+    detalle = p.tipo === "millar"
+      ? `${cantidad} millar(es) × ${fmt(p.precio)}`
+      : `${cantidad} pieza(s) × ${fmt(p.precio)}`;
+  } else if (p.tipo === "m2"){
+    const b = parseFloat(document.getElementById("base").value);
+    const a = parseFloat(document.getElementById("altura").value);
+    if (!(b > 0) || !(a > 0)){ toast("Base y altura deben ser > 0"); return; }
+    total = b * a * p.precio * cantidad;
+    detalle = `${b}m × ${a}m | ${cantidad} pieza(s) | ${fmt(p.precio)}/m²`;
+  } else if (p.tipo === "lineal_dtf"){
+    const a = parseFloat(document.getElementById("altura").value);
+    if (!(a > 0)){ toast("La altura debe ser > 0"); return; }
+    const pUnitario = a <= 0.20 ? 100 : (0.60 * a) * p.precio;
+    total = pUnitario * cantidad;
+    detalle = `0.60m × ${a}m | ${cantidad} ejemplar(es)`;
+  } else {
+    total = p.precio * cantidad;
+    detalle = `${cantidad} × ${fmt(p.precio)}`;
+  }
+
+  itemActual = { nombre: p.nombre, total, detalle, cantidad };
+
+  document.getElementById("resMonto").textContent = fmt(total);
+  document.getElementById("resDetalle").textContent = detalle;
+  document.getElementById("boxResultado").style.display = "block";
+}
+
+/* ============================================================
+   CARRITO
+============================================================ */
+function agregarAlCarrito(){
+  if (!itemActual) return;
+  carrito.push({ ...itemActual, uid: Date.now() + Math.random() });
+  guardarCarrito();
+  renderCarrito();
+  document.getElementById("boxResultado").style.display = "none";
+  toast("Producto añadido ✓");
+}
+
+function guardarCarrito(){
+  localStorage.setItem(CACHE_KEY_CARRITO, JSON.stringify(carrito));
+}
+
+function renderCarrito(){
+  const sec  = document.getElementById("seccionCarrito");
+  const list = document.getElementById("listaCarrito");
+
+  if (carrito.length === 0){
+    sec.style.display = "none";
+    return;
+  }
+  sec.style.display = "block";
+  list.innerHTML = "";
+
+  let granTotal = 0;
+  carrito.forEach((item, i) => {
+    granTotal += item.total;
+
+    const div = document.createElement("div");
+    div.className = "cart-item";
+    div.innerHTML = `
+      <div class="cart-item-info">
+        <div class="cart-item-name">${esc(item.nombre)}</div>
+        <div class="cart-item-detail">${esc(item.detalle)}</div>
+        <div class="cart-item-actions">
+          <div class="qty-ctrl">
+            <button title="Menos" onclick="cambiarCantidad(${i},-1)">−</button>
+            <span>${item.cantidad ?? 1}</span>
+            <button title="Más" onclick="cambiarCantidad(${i},1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div class="cart-item-price">${fmt(item.total)}</div>
+        <button class="btn-remove" title="Eliminar"
+                onclick="eliminarItem(${i})">×</button>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+
+  document.getElementById("granTotal").textContent = fmt(granTotal);
+
+  // Mensaje de WhatsApp
+  let msg = "Hola *T&J Diseño & Publicidad*, solicito cotización:\n\n";
+  carrito.forEach(it => {
+    msg += `• *${it.nombre}*\n  ${it.detalle}\n  Subtotal: ${fmt(it.total)} MXN\n\n`;
+  });
+  msg += `*Total Estimado: ${fmt(granTotal)} MXN*\n`;
+  msg += `_Los precios no incluyen I.V.A. ni diseño._`;
+
+  document.getElementById("btnWsp").href =
+    `https://wa.me/${TEL_WHATSAPP}?text=${encodeURIComponent(msg)}`;
+}
+
+function cambiarCantidad(i, delta){
+  const item = carrito[i];
+  if (!item) return;
+  const nueva = Math.max(1, (item.cantidad ?? 1) + delta);
+  item.total = (item.total / (item.cantidad ?? 1)) * nueva;
+  item.cantidad = nueva;
+  guardarCarrito();
+  renderCarrito();
+}
+
+function eliminarItem(i){
+  carrito.splice(i, 1);
+  guardarCarrito();
+  renderCarrito();
+}
+
+function limpiarCarrito(){
+  if (carrito.length && !confirm("¿Borrar toda la cotización?")) return;
+  carrito = [];
+  guardarCarrito();
+  renderCarrito();
+  toast("Cotización borrada");
+}
+
+/* ============================================================
+   INICIALIZACIÓN
+============================================================ */
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Service Worker (PWA offline)
+if ("serviceWorker" in navigator){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(e =>
+      console.warn("SW no registrado:", e));
+  });
+}
+
+// Cargar catálogo y renderizar carrito persistido
+cargarDesdeGoogleSheets();
+renderCarrito();
 </script>
-
 </body>
 </html>
