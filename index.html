@@ -18,7 +18,6 @@
    APPLE-STYLE + CMYK T&J
 ============================================================ */
 :root{
-  /* Apple base */
   --apple-bg:        #f5f5f7;
   --apple-card:      #ffffff;
   --apple-text:      #1d1d1f;
@@ -32,7 +31,6 @@
   --apple-shadow-lg: 0 12px 40px rgba(0,0,0,.10);
   --apple-transition: all .35s cubic-bezier(.4,0,.2,1);
 
-  /* CMYK T&J */
   --tj-cyan:    #00aeef;
   --tj-magenta: #ec008c;
   --tj-yellow:  #fff200;
@@ -78,7 +76,7 @@ body{
   to{opacity:1;transform:translateY(0) scale(1);}
 }
 
-/* 🔽 Franja CMYK superior */
+/* Franja CMYK superior */
 .apple-card::before{
   content:"";
   display:block;
@@ -89,7 +87,7 @@ body{
     var(--tj-magenta) 66.6%);
 }
 
-/* 🔽 Franja CMYK inferior (espejo) */
+/* Franja CMYK inferior */
 .apple-card::after{
   content:"";
   display:block;
@@ -128,7 +126,6 @@ body{
   position:relative;
 }
 
-/* Anillo CMYK sutil alrededor del logo */
 .apple-logo-wrap::before{
   content:"";
   position:absolute;
@@ -234,7 +231,6 @@ body{
   cursor:not-allowed;
 }
 
-/* Buscador */
 .apple-search{
   position:relative;
   margin-bottom:20px;
@@ -286,7 +282,7 @@ body{
 }
 
 /* ============================================================
-   BOTÓN PRINCIPAL — gradiente CMYK
+   BOTÓN PRINCIPAL
 ============================================================ */
 .apple-btn{
   width:100%;
@@ -322,7 +318,7 @@ body{
 }
 
 /* ============================================================
-   RESULT BOX — borde CMYK sutil
+   RESULT BOX
 ============================================================ */
 .apple-result{
   background:#fafafa;
@@ -397,75 +393,126 @@ body{
 }
 
 /* ============================================================
-   CARRITO
+   CARRITO — sección integrada
 ============================================================ */
 .apple-cart{
-  margin-top:32px;
-  padding-top:28px;
-  border-top:1px solid var(--apple-border);
+  margin-top:28px;
+  padding:22px 20px 20px;
+  background:#fafafa;
+  border-radius:var(--apple-radius);
+  border:1px solid var(--apple-border);
+  animation:appleFadeIn .4s cubic-bezier(.4,0,.2,1);
+}
+
+.apple-cart-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:16px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--apple-border);
 }
 
 .apple-cart-title{
-  font-size:22px;
-  font-weight:700;
+  font-size:17px;
+  font-weight:600;
   letter-spacing:-.02em;
-  text-align:center;
-  margin:0 0 20px;
+  margin:0;
   color:var(--apple-text);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.apple-cart-title::before{
+  content:"";
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--tj-cyan),var(--tj-magenta));
+}
+
+.apple-cart-count{
+  font-size:12px;
+  font-weight:500;
+  color:var(--apple-text-mute);
+  background:#fff;
+  padding:3px 10px;
+  border-radius:980px;
+  border:1px solid var(--apple-border);
 }
 
 .apple-actions{
-  display:flex;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
   gap:8px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-bottom:20px;
+  margin-bottom:16px;
 }
 
 .apple-action-btn{
   display:inline-flex;
   align-items:center;
+  justify-content:center;
   gap:5px;
-  padding:8px 16px;
+  padding:10px 8px;
   font-family:inherit;
-  font-size:13px;
+  font-size:12px;
   font-weight:500;
-  color:var(--apple-text);
-  background:#f5f5f7;
-  border:none;
-  border-radius:980px;
+  color:var(--apple-text-soft);
+  background:#fff;
+  border:1px solid var(--apple-border);
+  border-radius:10px;
   cursor:pointer;
   text-decoration:none;
   transition:var(--apple-transition);
   letter-spacing:-.01em;
+  white-space:nowrap;
 }
 
-.apple-action-btn:hover{background:#e8e8ed;}
+.apple-action-btn:hover{
+  background:#fff;
+  border-color:var(--apple-border-2);
+  color:var(--apple-text);
+  transform:translateY(-1px);
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
 
 .apple-action-btn.danger{color:#ff3b30;}
-.apple-action-btn.danger:hover{background:#ffe5e3;}
+.apple-action-btn.danger:hover{
+  background:#fff5f5;
+  border-color:#ffd6d3;
+}
 
 .apple-action-btn.wsp{
   color:#fff;
   background:#34c759;
+  border-color:#34c759;
 }
-.apple-action-btn.wsp:hover{background:#2fb350;}
+.apple-action-btn.wsp:hover{
+  background:#2fb350;
+  border-color:#2fb350;
+  box-shadow:0 4px 12px rgba(52,199,89,.25);
+}
 
-/* ============================================================
-   ITEM DEL CARRITO — barra CMYK
-============================================================ */
 .apple-cart-item{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
   gap:12px;
-  padding:16px 18px;
-  background:#fafafa;
+  padding:14px 16px;
+  background:#fff;
   border-radius:var(--apple-radius-sm);
-  margin-bottom:10px;
+  margin-bottom:8px;
+  border:1px solid var(--apple-border);
   transition:var(--apple-transition);
   position:relative;
   overflow:hidden;
+  animation:appleFadeIn .3s cubic-bezier(.4,0,.2,1);
+}
+
+.apple-cart-item:last-of-type{
+  margin-bottom:14px;
 }
 
 .apple-cart-item::before{
@@ -478,12 +525,15 @@ body{
     var(--tj-magenta));
 }
 
-.apple-cart-item:hover{background:#f5f5f7;}
+.apple-cart-item:hover{
+  border-color:var(--apple-border-2);
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
 
 .apple-item-info{flex:1;min-width:0;}
 
 .apple-item-name{
-  font-size:15px;
+  font-size:14px;
   font-weight:600;
   color:var(--apple-text);
   letter-spacing:-.01em;
@@ -493,14 +543,14 @@ body{
 }
 
 .apple-item-detail{
-  font-size:12px;
+  font-size:11px;
   color:var(--apple-text-mute);
   margin-top:2px;
   letter-spacing:-.01em;
 }
 
 .apple-item-price{
-  font-size:17px;
+  font-size:15px;
   font-weight:600;
   letter-spacing:-.02em;
   color:var(--apple-text);
@@ -510,8 +560,8 @@ body{
 .apple-qty{
   display:inline-flex;
   align-items:center;
-  background:#fff;
-  border:1px solid var(--apple-border-2);
+  background:#fafafa;
+  border:1px solid var(--apple-border);
   border-radius:8px;
   overflow:hidden;
   margin-top:8px;
@@ -520,8 +570,8 @@ body{
 .apple-qty button{
   background:transparent;
   border:none;
-  padding:4px 10px;
-  font-size:14px;
+  padding:3px 9px;
+  font-size:13px;
   font-weight:500;
   color:var(--apple-text-soft);
   cursor:pointer;
@@ -534,37 +584,39 @@ body{
 }
 
 .apple-qty span{
-  padding:4px 10px;
-  font-size:13px;
+  padding:3px 9px;
+  font-size:12px;
   font-weight:600;
-  min-width:30px;
+  min-width:26px;
   text-align:center;
+  color:var(--apple-text);
 }
 
 .apple-remove{
   background:transparent;
   border:none;
   color:var(--apple-text-mute);
-  font-size:22px;
+  font-size:20px;
   line-height:1;
-  padding:0 4px;
+  padding:2px 6px;
   cursor:pointer;
   transition:var(--apple-transition);
+  border-radius:6px;
 }
 
-.apple-remove:hover{color:#ff3b30;}
+.apple-remove:hover{
+  color:#ff3b30;
+  background:#fff5f5;
+}
 
-/* ============================================================
-   TOTAL BAR
-============================================================ */
 .apple-total{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:20px 24px;
+  padding:16px 20px;
   background:var(--tj-dark);
-  border-radius:var(--apple-radius);
-  margin-top:12px;
+  border-radius:var(--apple-radius-sm);
+  margin-top:0;
   color:#fff;
   position:relative;
   overflow:hidden;
@@ -582,14 +634,15 @@ body{
 }
 
 .apple-total-label{
-  font-size:15px;
+  font-size:13px;
   font-weight:500;
-  letter-spacing:-.01em;
-  opacity:.7;
+  letter-spacing:.05em;
+  opacity:.65;
+  text-transform:uppercase;
 }
 
 .apple-total-value{
-  font-size:26px;
+  font-size:22px;
   font-weight:800;
   letter-spacing:-.03em;
   color:var(--tj-yellow);
@@ -703,14 +756,12 @@ body{
   <!-- BODY -->
   <div class="apple-body">
 
-    <!-- BUSCADOR -->
     <div class="apple-search">
       <input class="apple-input" type="text" id="buscador"
              placeholder="Buscar producto..."
              oninput="filtrarProductos()" autocomplete="off">
     </div>
 
-    <!-- SELECTOR -->
     <div class="apple-field">
       <label class="apple-label" for="producto">Producto</label>
       <select class="apple-select" id="producto" onchange="cambiarProducto()">
@@ -718,12 +769,10 @@ body{
       </select>
     </div>
 
-    <!-- INFO TARIFA -->
     <div class="apple-info" id="infoPrecio">
       <span class="loading-shimmer"></span>
     </div>
 
-    <!-- MEDIDAS -->
     <div id="camposMedida" style="display:none;">
       <div class="apple-field">
         <div class="apple-grid-2">
@@ -741,17 +790,14 @@ body{
       </div>
     </div>
 
-    <!-- CANTIDAD -->
     <div class="apple-field">
       <label class="apple-label" id="lblCantidad">Cantidad</label>
       <input class="apple-input" type="number" id="cantidad" value="1"
              min="1" step="1" inputmode="numeric">
     </div>
 
-    <!-- BOTÓN CALCULAR -->
     <button class="apple-btn" onclick="calcular()">Calcular presupuesto</button>
 
-    <!-- RESULTADO -->
     <div class="apple-result" id="boxResultado" style="display:none;">
       <div class="apple-result-label">Subtotal estimado</div>
       <div class="apple-result-amount" id="resMonto">$0.00</div>
@@ -761,12 +807,15 @@ body{
 
     <!-- CARRITO -->
     <div class="apple-cart" id="seccionCarrito" style="display:none;">
-      <h2 class="apple-cart-title">Tu cotización</h2>
+      <div class="apple-cart-header">
+        <h2 class="apple-cart-title">Tu cotización</h2>
+        <span class="apple-cart-count" id="cartCount">0 items</span>
+      </div>
 
       <div class="apple-actions">
-        <button class="apple-action-btn danger" onclick="limpiarCarrito()">🗑️ Borrar todo</button>
+        <button class="apple-action-btn danger" onclick="limpiarCarrito()">🗑️ Borrar</button>
         <button class="apple-action-btn" onclick="window.print()">🖨️ Imprimir</button>
-        <a id="btnWsp" href="#" target="_blank" rel="noopener" class="apple-action-btn wsp">📲 Enviar WhatsApp</a>
+        <a id="btnWsp" href="#" target="_blank" rel="noopener" class="apple-action-btn wsp">📲 WhatsApp</a>
       </div>
 
       <div id="listaCarrito"></div>
@@ -1088,6 +1137,12 @@ function renderCarrito(){
 
   document.getElementById("granTotal").textContent = fmt(granTotal);
 
+  // Contador de items
+  const totalItems = carrito.reduce((s, it) => s + (it.cantidad ?? 1), 0);
+  document.getElementById("cartCount").textContent =
+    totalItems + (totalItems === 1 ? " item" : " items");
+
+  // Mensaje de WhatsApp
   let msg = "Hola *T&J Diseño & Publicidad*, solicito cotización:\n\n";
   carrito.forEach(it => {
     msg += `• *${it.nombre}*\n  ${it.detalle}\n  Subtotal: ${fmt(it.total)} MXN\n\n`;
