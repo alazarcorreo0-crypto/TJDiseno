@@ -1,5 +1,5 @@
-/* Service Worker - T&J Cotizador */
-const CACHE_NAME = "tj-cotizador-v1";
+/* Service Worker - T&J Cotizador v2 */
+const CACHE_NAME = "tj-cotizador-v2";   // ← cambia v1 → v2
 const ASSETS = [
   "./",
   "./index.html",
@@ -28,7 +28,6 @@ self.addEventListener("fetch", e => {
   const req = e.request;
   if (req.method !== "GET") return;
 
-  // Google Sheets / CORS proxy → network first
   if (req.url.includes("docs.google.com") || req.url.includes("corsproxy.io")){
     e.respondWith(
       fetch(req).catch(() => caches.match(req))
@@ -36,7 +35,6 @@ self.addEventListener("fetch", e => {
     return;
   }
 
-  // Resto → cache first con revalidación
   e.respondWith(
     caches.match(req).then(cached => {
       const red = fetch(req).then(res => {
