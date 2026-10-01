@@ -6,7 +6,7 @@
 <meta name="description" content="Cotizador en línea de T&J Diseño & Publicidad">
 <title>Cotizador | T&J Diseño & Publicidad</title>
 
-<link rel="icon" type="image/png" href="./logo.png?v=4">
+<link rel="icon" type="image/png" href="./logo.png?v=5">
 <link rel="apple-touch-icon" href="./logo.png">
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#111827">
@@ -76,7 +76,6 @@ body{
   to{opacity:1;transform:translateY(0) scale(1);}
 }
 
-/* Franja CMYK superior */
 .apple-card::before{
   content:"";
   display:block;
@@ -87,7 +86,6 @@ body{
     var(--tj-magenta) 66.6%);
 }
 
-/* Franja CMYK inferior */
 .apple-card::after{
   content:"";
   display:block;
@@ -408,9 +406,11 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:8px;
   margin-bottom:16px;
   padding-bottom:14px;
   border-bottom:1px solid var(--apple-border);
+  flex-wrap:wrap;
 }
 
 .apple-cart-title{
@@ -441,11 +441,13 @@ body{
   padding:3px 10px;
   border-radius:980px;
   border:1px solid var(--apple-border);
+  white-space:nowrap;
 }
 
+/* Botonera — grid de 3 con minmax(0,1fr) para evitar desbordes */
 .apple-actions{
   display:grid;
-  grid-template-columns:1fr 1fr 1fr;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
   gap:8px;
   margin-bottom:16px;
 }
@@ -468,6 +470,9 @@ body{
   transition:var(--apple-transition);
   letter-spacing:-.01em;
   white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
 }
 
 .apple-action-btn:hover{
@@ -682,6 +687,8 @@ body{
   z-index:9999;
   pointer-events:none;
   letter-spacing:-.01em;
+  max-width:calc(100% - 32px);
+  text-align:center;
 }
 
 .toast.show{
@@ -708,13 +715,46 @@ body{
 }
 
 /* ============================================================
-   RESPONSIVE
+   📱 RESPONSIVE — pantallas chicas (Samsung, Android angostos)
 ============================================================ */
+@media (max-width: 400px){
+  .apple-actions{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .apple-action-btn.wsp{
+    grid-column: span 2;
+  }
+  .apple-action-btn{
+    font-size:11px;
+    padding:9px 6px;
+  }
+}
+
 @media(max-width:480px){
   body{padding:24px 12px calc(24px + env(safe-area-inset-bottom));}
   .apple-body{padding:24px 20px 28px;}
   .apple-title{font-size:24px;}
   .apple-result-amount{font-size:44px;}
+
+  .apple-cart{
+    padding:18px 14px 16px;
+  }
+  .apple-cart-item{
+    padding:12px 14px;
+  }
+  .apple-item-name{
+    font-size:13px;
+  }
+  .apple-item-price{
+    font-size:14px;
+  }
+  .apple-total{
+    padding:14px 16px;
+  }
+  .apple-total-value{
+    font-size:20px;
+  }
 }
 
 /* ============================================================
@@ -744,7 +784,6 @@ body{
 
 <div class="apple-card">
 
-  <!-- HEADER -->
   <div class="apple-header">
     <div class="apple-logo-wrap">
       <img src="./logo.png" alt="T&J" onerror="this.style.display='none'">
@@ -753,7 +792,6 @@ body{
     <p class="apple-subtitle">T&J Diseño & Publicidad</p>
   </div>
 
-  <!-- BODY -->
   <div class="apple-body">
 
     <div class="apple-search">
@@ -805,7 +843,6 @@ body{
       <button class="apple-btn-add" onclick="agregarAlCarrito()">+ Añadir a la lista</button>
     </div>
 
-    <!-- CARRITO -->
     <div class="apple-cart" id="seccionCarrito" style="display:none;">
       <div class="apple-cart-header">
         <h2 class="apple-cart-title">Tu cotización</h2>
@@ -828,7 +865,6 @@ body{
 
   </div>
 
-  <!-- FOOTER -->
   <div class="apple-footer">
     Precios no incluyen I.V.A. Ni Elaboración de Diseño.<br>
     © <span id="year"></span> T&J Diseño & Publicidad
@@ -1137,12 +1173,10 @@ function renderCarrito(){
 
   document.getElementById("granTotal").textContent = fmt(granTotal);
 
-  // Contador de items
   const totalItems = carrito.reduce((s, it) => s + (it.cantidad ?? 1), 0);
   document.getElementById("cartCount").textContent =
     totalItems + (totalItems === 1 ? " item" : " items");
 
-  // Mensaje de WhatsApp
   let msg = "Hola *T&J Diseño & Publicidad*, solicito cotización:\n\n";
   carrito.forEach(it => {
     msg += `• *${it.nombre}*\n  ${it.detalle}\n  Subtotal: ${fmt(it.total)} MXN\n\n`;
@@ -1171,7 +1205,7 @@ function eliminarItem(i){
 }
 
 function limpiarCarrito(){
-  if (carrito.length && !confirm("¿Borrar toda la cotización?")) return;
+ ánd if (carrito.length && !confirm("¿Borrar toda laale al cliente este cotización?")) return;
   carrito = [];
   guardarCarrito();
   renderCarrito();
@@ -1179,14 +1213,28 @@ function limpiarCarrito(){
 }
 
 /* ============================================================
-   INICIALIZACIÓN
+   INICIALIZACIÓN + AUTO-UPDATE DEL SERVICE WORKER
 ============================================================ */
 document.getElementById("year").textContent = new Date().getFullYear();
 
 if ("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(e =>
-      console.warn("SW no registrado:", e));
+    navigator.serviceWorker.register("./sw.js").then(reg => {
+      // Buscar actualizaciones cada vez que carga
+      reg.update();
+
+      // Si hay un SW nuevo esperando, activarlo ya y recargar
+      reg.addEventListener("updatefound", () => {
+        const newWorker = reg.installing;
+        if (!newWorker) return;
+        newWorker.addEventListener("statechange", () => {
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller){
+            newWorker.postMessage({ type: "SKIP_WAITING" });
+            window.location.reload();
+          }
+        });
+      });
+    }).catch(e => console.warn("SW no registrado:", e));
   });
 }
 
