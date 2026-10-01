@@ -6,7 +6,7 @@
 <meta name="description" content="Cotizador en línea de T&J Diseño & Publicidad">
 <title>Cotizador | T&J Diseño & Publicidad</title>
 
-<link rel="icon" type="image/png" href="./logo.png?v=5">
+<link rel="icon" type="image/png" href="./logo.png?v=6">
 <link rel="apple-touch-icon" href="./logo.png">
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#111827">
@@ -391,7 +391,7 @@ body{
 }
 
 /* ============================================================
-   CARRITO — sección integrada
+   CARRITO
 ============================================================ */
 .apple-cart{
   margin-top:28px;
@@ -444,7 +444,6 @@ body{
   white-space:nowrap;
 }
 
-/* Botonera — grid de 3 con minmax(0,1fr) para evitar desbordes */
 .apple-actions{
   display:grid;
   grid-template-columns:repeat(3, minmax(0, 1fr));
@@ -715,7 +714,7 @@ body{
 }
 
 /* ============================================================
-   📱 RESPONSIVE — pantallas chicas (Samsung, Android angostos)
+   📱 RESPONSIVE
 ============================================================ */
 @media (max-width: 400px){
   .apple-actions{
@@ -1205,7 +1204,7 @@ function eliminarItem(i){
 }
 
 function limpiarCarrito(){
- ánd if (carrito.length && !confirm("¿Borrar toda laale al cliente este cotización?")) return;
+  if (carrito.length && !confirm("¿Borrar toda la cotización?")) return;
   carrito = [];
   guardarCarrito();
   renderCarrito();
@@ -1213,28 +1212,15 @@ function limpiarCarrito(){
 }
 
 /* ============================================================
-   INICIALIZACIÓN + AUTO-UPDATE DEL SERVICE WORKER
+   INICIALIZACIÓN
 ============================================================ */
 document.getElementById("year").textContent = new Date().getFullYear();
 
+// Service Worker básico — la versión simple que SÍ funciona
 if ("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").then(reg => {
-      // Buscar actualizaciones cada vez que carga
-      reg.update();
-
-      // Si hay un SW nuevo esperando, activarlo ya y recargar
-      reg.addEventListener("updatefound", () => {
-        const newWorker = reg.installing;
-        if (!newWorker) return;
-        newWorker.addEventListener("statechange", () => {
-          if (newWorker.state === "installed" && navigator.serviceWorker.controller){
-            newWorker.postMessage({ type: "SKIP_WAITING" });
-            window.location.reload();
-          }
-        });
-      });
-    }).catch(e => console.warn("SW no registrado:", e));
+    navigator.serviceWorker.register("./sw.js").catch(e =>
+      console.warn("SW no registrado:", e));
   });
 }
 
@@ -1242,4 +1228,4 @@ cargarDesdeGoogleSheets();
 renderCarrito();
 </script>
 </body>
-</html> 
+</html>
