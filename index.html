@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cotizador | T&J Diseño & Publicidad</title>
     
-    <!-- Icono de la Pestaña Web (Favicon) -->
-    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Iconos de Pestaña y PWA (App Móvil) -->
+    <link rel="icon" type="image/png" href="logo.png?v=2">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#111827">
 
     <style>
         :root {
@@ -21,16 +24,36 @@
         }
 
         * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-        body { background-color: var(--tj-gray); margin: 0; padding: 20px 15px; color: #334155; }
+        
+        /* Fondo Adaptable para PC y Celular */
+        body {
+            background-color: var(--tj-gray);
+            background-image: url('fondo.jpg');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px 15px;
+            color: #334155;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background-attachment: scroll;
+            }
+        }
 
         .cotizador-card {
             max-width: 500px;
             margin: auto;
-            background: var(--tj-card);
+            background: rgba(255, 255, 255, 0.96); /* Blanco semi-transparente elegante */
             border-radius: var(--tj-radius);
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
             overflow: hidden;
             border: 2px solid var(--tj-dark);
+            backdrop-filter: blur(5px);
         }
 
         .header {
@@ -48,18 +71,17 @@
             background: linear-gradient(to right, var(--tj-cyan) 33.3%, var(--tj-yellow) 33.3% 66.6%, var(--tj-magenta) 66.6%);
         }
 
-        /* Estilos del Logo e Imagen */
         .header-logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 4px;
         }
 
         .header-logo-img {
             width: 45px;
-            height: auto;
+            height: 45px;
             object-fit: contain;
         }
 
@@ -182,8 +204,7 @@
     <div class="header">
         <div class="header-accent"></div>
         <div class="header-logo-container">
-            <!-- Imagen del Logo -->
-            <img src="logo.png" alt="Logo T&J" class="header-logo-img">
+            <img src="logo.png" alt="Logo T&J" class="header-logo-img" onerror="this.style.display='none'">
             <h1 class="logo-title">T<span class="amp">&</span>J</h1>
         </div>
         <div class="logo-subtitle">Diseño & Publicidad</div>
