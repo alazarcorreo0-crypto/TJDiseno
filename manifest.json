@@ -1,0 +1,22 @@
+{
+  "short_name": "T&J Cotizador",
+  "name": "Cotizador | T&J Diseño & Publicidad",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#ffffff",
+  "theme_color": "#111827",
+  "display": "standalone"
+}
